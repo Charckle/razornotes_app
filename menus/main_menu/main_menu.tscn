@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://cpa6q1pkmayod"]
+
+[ext_resource type="Script" uid="uid://5hsfevthiryg" path="res://menus/main_menu/main_menu.gd" id="1_mainmenu"]
+
+[node name="MainMenu" type="Control" unique_id=683464784]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mainmenu")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1154528645]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=517025310]
+layout_mode = 2
+
+[node name="ContentArea" type="Control" parent="PanelContainer/VBoxContainer" unique_id=1889912988]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BrowseMenu" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1376134100]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BrowseMenu" unique_id=24985195]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RecentBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/HBoxContainer" unique_id=1146445290]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Recent"
+
+[node name="AllNotesBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/HBoxContainer" unique_id=381833647]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "All Notes"
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer" unique_id=1142361112]
+layout_mode = 2
+columns = 4
+
+[node name="SearchBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1379002099]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Search"
+
+[node name="HomeBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1392397708]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Home"
+
+[node name="LastBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1131060379]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Othr"
+
+[node name="SettingsBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1329108955]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Settings"

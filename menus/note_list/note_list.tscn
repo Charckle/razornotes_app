@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://cnotelist00001"]
+
+[ext_resource type="Script" path="res://menus/note_list/note_list.gd" id="1_notelist"]
+
+[node name="NoteList" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_notelist")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SyncBar" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+visible = false
+theme_override_constants/separation = 8
+
+[node name="SyncStatusLabel" type="Label" parent="VBoxContainer/SyncBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Last synced: —"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="SyncNowBtn" type="Button" parent="VBoxContainer/SyncBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Sync Now"
+custom_minimum_size = Vector2(80, 0)
+
+[node name="LoadingLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Loading…"
+horizontal_alignment = 1
+
+[node name="ErrorLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+modulate = Color(1, 0.35, 0.35, 1)
+visible = false
+
+[node name="RetryBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Retry"
+custom_minimum_size = Vector2(0, 48)
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NotesContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 6

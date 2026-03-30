@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://csettings00001"]
+
+[ext_resource type="Script" path="res://menus/settings/settings.gd" id="1_settings"]
+
+[node name="Settings" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_settings")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+theme_override_font_sizes/font_size = 26
+
+[node name="Sep0" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AccountLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Account"
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="AccountLabelValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "—"
+theme_override_font_sizes/font_size = 18
+
+[node name="ServerUrlLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server"
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="ServerUrlValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "—"
+
+[node name="ServerStatusRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ServerStatusLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerStatusRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "—"
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+
+[node name="CheckServerBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerStatusRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Check"
+custom_minimum_size = Vector2(64, 32)
+
+[node name="UsernameLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Username"
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="UsernameValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "—"
+
+[node name="SyncModeLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sync mode"
+theme_override_font_sizes/font_size = 13
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="SyncModeValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "—"
+
+[node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SyncSection" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+theme_override_constants/separation = 8
+visible = false
+
+[node name="LastSyncedLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/SyncSection"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Last synced: —"
+
+[node name="SyncNowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/SyncSection"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Sync Now"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SwitchAccountBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Switch Account"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="AddAccountBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Add Account"
+custom_minimum_size = Vector2(0, 52)
+
+[node name="Sep3" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LogoutBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Logout (clears session)"
+custom_minimum_size = Vector2(0, 52)
+modulate = Color(1, 0.5, 0.5, 1)
+
+[node name="RemoveAccountBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Remove This Account"
+custom_minimum_size = Vector2(0, 52)
+modulate = Color(1, 0.2, 0.2, 1)
+
+[node name="ConfirmRemovePanel" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+visible = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConfirmLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer"]
+layout_mode = 2
+text = "Remove this account and all its local data? This cannot be undone."
+autowrap_mode = 3
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ConfirmYesBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Yes, Remove"
+modulate = Color(1, 0.2, 0.2, 1)
+custom_minimum_size = Vector2(0, 48)
+
+[node name="ConfirmNoBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Cancel"
+custom_minimum_size = Vector2(0, 48)

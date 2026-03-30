@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cnotecard00001"]
+
+[ext_resource type="Script" path="res://components/note_card/note_card.gd" id="1_ncard"]
+
+[node name="NoteCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 72)
+size_flags_horizontal = 3
+script = ExtResource("1_ncard")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleRow"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Note Title"
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
+[node name="LocalBadge" type="Label" parent="MarginContainer/VBoxContainer/TitleRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "⬇"
+theme_override_font_sizes/font_size = 12
+modulate = Color(0.4, 0.8, 1.0, 1)
+visible = false
+
+[node name="PreviewLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Note preview text..."
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 1
+text_overrun_behavior = 3
+modulate = Color(0.8, 0.8, 0.8, 1)

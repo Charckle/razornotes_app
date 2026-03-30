@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://caccsel000001"]
+
+[ext_resource type="Script" path="res://menus/account_select/account_select.gd" id="1_asel"]
+
+[node name="AccountSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_asel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "razor notes"
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Select an account"
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="AccountListView" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="NoAccountsLabel" type="Label" parent="MarginContainer/VBoxContainer/AccountListView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "No accounts yet. Add one to get started."
+horizontal_alignment = 1
+autowrap_mode = 3
+visible = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/AccountListView"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AccountList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/AccountListView/ScrollContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="AddAccountBtn" type="Button" parent="MarginContainer/VBoxContainer/AccountListView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "+ Add Account"
+custom_minimum_size = Vector2(0, 56)
+
+[node name="UnlockView" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+visible = false
+
+[node name="UnlockTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Unlock account"
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+
+[node name="LocalPassInput" type="LineEdit" parent="MarginContainer/VBoxContainer/UnlockView"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "Local password"
+secret = true
+custom_minimum_size = Vector2(0, 52)
+
+[node name="UnlockErrorLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = ""
+horizontal_alignment = 1
+modulate = Color(1, 0.35, 0.35, 1)
+
+[node name="UnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Unlock"
+custom_minimum_size = Vector2(0, 56)
+
+[node name="CancelUnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Cancel"
+custom_minimum_size = Vector2(0, 48)

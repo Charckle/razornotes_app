@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://csearch000001"]
+
+[ext_resource type="Script" path="res://menus/search/search.gd" id="1_search"]
+
+[node name="Search" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_search")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OfflineLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "● Offline"
+theme_override_font_sizes/font_size = 13
+modulate = Color(1, 0.25, 0.25, 1)
+horizontal_alignment = 2
+visible = false
+
+[node name="SearchBar" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SearchInput" type="LineEdit" parent="VBoxContainer/SearchBar"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+placeholder_text = "Search notes…"
+custom_minimum_size = Vector2(0, 48)
+
+[node name="SearchBtn" type="Button" parent="VBoxContainer/SearchBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Go"
+custom_minimum_size = Vector2(56, 48)
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = ""
+horizontal_alignment = 1
+modulate = Color(0.7, 0.7, 0.7, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ResultsContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 6

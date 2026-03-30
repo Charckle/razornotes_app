@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://caddacc000001"]
+
+[ext_resource type="Script" path="res://menus/add_account/add_account.gd" id="1_addacc"]
+
+[node name="AddAccount" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_addacc")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Add Account"
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 8)
+
+[node name="LabelFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Account Name"
+
+[node name="LabelInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "e.g. Home server"
+custom_minimum_size = Vector2(0, 48)
+
+[node name="UrlFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server URL"
+
+[node name="UrlInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "https://notes.example.com"
+custom_minimum_size = Vector2(0, 48)
+
+[node name="UsernameFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Username"
+
+[node name="UsernameInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "your username"
+custom_minimum_size = Vector2(0, 48)
+
+[node name="ServerPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Server Password"
+
+[node name="ServerPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "server password"
+secret = true
+custom_minimum_size = Vector2(0, 48)
+
+[node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="LocalPassHint" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Local password — encrypts your stored data on this device."
+autowrap_mode = 3
+modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="LocalPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Local Password"
+
+[node name="LocalPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "local password (min 4 chars)"
+secret = true
+custom_minimum_size = Vector2(0, 48)
+
+[node name="LocalPassConfirmFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Confirm Local Password"
+
+[node name="LocalPassConfirmInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+placeholder_text = "repeat local password"
+secret = true
+custom_minimum_size = Vector2(0, 48)
+
+[node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SyncModeFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sync Mode"
+
+[node name="SyncModeOption" type="OptionButton" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+
+[node name="ErrorLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = ""
+horizontal_alignment = 1
+autowrap_mode = 3
+modulate = Color(1, 0.35, 0.35, 1)
+
+[node name="SaveBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Save Account"
+custom_minimum_size = Vector2(0, 56)
+
+[node name="CancelBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Cancel"
+custom_minimum_size = Vector2(0, 48)
