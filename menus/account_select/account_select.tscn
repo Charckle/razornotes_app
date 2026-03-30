@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://caccsel000001"]
 
-[ext_resource type="Script" path="res://menus/account_select/account_select.gd" id="1_asel"]
+[ext_resource type="Script" uid="uid://bjj17fm84sly8" path="res://menus/account_select/account_select.gd" id="1_asel"]
 
-[node name="AccountSelect" type="Control"]
+[node name="AccountSelect" type="Control" unique_id=1674131055]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_asel")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1917997237]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,93 +19,104 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 24
-theme_override_constants/margin_right = 24
 theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2087678141]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=223837682]
 layout_mode = 2
-text = "razor notes"
 theme_override_font_sizes/font_size = 36
+text = "razor notes"
 horizontal_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Select an account"
-theme_override_font_sizes/font_size = 14
-horizontal_alignment = 1
+[node name="SubtitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=293528809]
 modulate = Color(0.7, 0.7, 0.7, 1)
-
-[node name="AccountListView" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Select an account"
+horizontal_alignment = 1
+
+[node name="AccountListView" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=302486889]
 unique_name_in_owner = true
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 12
 
-[node name="NoAccountsLabel" type="Label" parent="MarginContainer/VBoxContainer/AccountListView"]
-layout_mode = 2
+[node name="NoAccountsLabel" type="Label" parent="MarginContainer/VBoxContainer/AccountListView" unique_id=812882139]
 unique_name_in_owner = true
+visible = false
+layout_mode = 2
 text = "No accounts yet. Add one to get started."
 horizontal_alignment = 1
 autowrap_mode = 3
-visible = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/AccountListView"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/AccountListView" unique_id=720149713]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="AccountList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/AccountListView/ScrollContainer"]
-layout_mode = 2
+[node name="AccountList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/AccountListView/ScrollContainer" unique_id=353215435]
 unique_name_in_owner = true
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="AddAccountBtn" type="Button" parent="MarginContainer/VBoxContainer/AccountListView"]
-layout_mode = 2
+[node name="AddAccountBtn" type="Button" parent="MarginContainer/VBoxContainer/AccountListView" unique_id=905820987]
 unique_name_in_owner = true
-text = "+ Add Account"
 custom_minimum_size = Vector2(0, 56)
-
-[node name="UnlockView" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "+ Add Account"
+
+[node name="UnlockView" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1539612503]
 unique_name_in_owner = true
+visible = false
+layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
-visible = false
 
-[node name="UnlockTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView"]
-layout_mode = 2
+[node name="UnlockTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=1080572659]
 unique_name_in_owner = true
-text = "Unlock account"
+layout_mode = 2
 theme_override_font_sizes/font_size = 22
+text = "Unlock account"
 horizontal_alignment = 1
 
-[node name="LocalPassInput" type="LineEdit" parent="MarginContainer/VBoxContainer/UnlockView"]
+[node name="UnlockPassRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=2132643419]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LocalPassInput" type="LineEdit" parent="MarginContainer/VBoxContainer/UnlockView/UnlockPassRow" unique_id=1191050154]
 unique_name_in_owner = true
-placeholder_text = "Local password"
-secret = true
 custom_minimum_size = Vector2(0, 52)
-
-[node name="UnlockErrorLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView"]
 layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Local password"
+virtual_keyboard_type = 2
+secret = true
+
+[node name="UnlockPassShowBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView/UnlockPassRow" unique_id=1538515897]
 unique_name_in_owner = true
-text = ""
-horizontal_alignment = 1
+custom_minimum_size = Vector2(88, 52)
+layout_mode = 2
+text = "Show"
+
+[node name="UnlockErrorLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=385670405]
+unique_name_in_owner = true
 modulate = Color(1, 0.35, 0.35, 1)
-
-[node name="UnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView"]
 layout_mode = 2
+horizontal_alignment = 1
+
+[node name="UnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=242936895]
 unique_name_in_owner = true
-text = "Unlock"
 custom_minimum_size = Vector2(0, 56)
-
-[node name="CancelUnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView"]
 layout_mode = 2
+text = "Unlock"
+
+[node name="CancelUnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=1318180853]
 unique_name_in_owner = true
-text = "Cancel"
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Cancel"

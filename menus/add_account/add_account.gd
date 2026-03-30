@@ -3,6 +3,7 @@ extends Control
 var _thread: Thread = null
 
 const SYNC_MODES := ["remote_only", "local_some", "full_mirror"]
+const _PassVis := preload("res://components/password_visibility_helper.gd")
 
 
 func _ready() -> void:
@@ -11,6 +12,9 @@ func _ready() -> void:
 	%SyncModeOption.add_item("Remote only (no local storage)", 0)
 	%SyncModeOption.add_item("Local some (cache on open)", 1)
 	%SyncModeOption.add_item("Full mirror (download everything)", 2)
+	_PassVis.bind_button(%ServerPassShowBtn, %ServerPassInput)
+	_PassVis.bind_button(%LocalPassShowBtn, %LocalPassInput)
+	_PassVis.bind_button(%LocalPassConfirmShowBtn, %LocalPassConfirmInput)
 
 
 func _on_save_pressed() -> void:

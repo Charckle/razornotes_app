@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://caddacc000001"]
 
-[ext_resource type="Script" path="res://menus/add_account/add_account.gd" id="1_addacc"]
+[ext_resource type="Script" uid="uid://rs341pk5ugrq" path="res://menus/add_account/add_account.gd" id="1_addacc"]
 
-[node name="AddAccount" type="Control"]
+[node name="AddAccount" type="Control" unique_id=719884354]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_addacc")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=290113846]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,129 +19,163 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer" unique_id=1985997364]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 24
-theme_override_constants/margin_right = 24
 theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer" unique_id=1453431404]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TitleLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1178837932]
 layout_mode = 2
-text = "Add Account"
 theme_override_font_sizes/font_size = 28
+text = "Add Account"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="Spacer" type="Control" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1622720549]
 custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
 
-[node name="LabelFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LabelFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=717991446]
 layout_mode = 2
 text = "Account Name"
 
-[node name="LabelInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="LabelInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1297780099]
 unique_name_in_owner = true
-placeholder_text = "e.g. Home server"
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+placeholder_text = "e.g. Home server"
 
-[node name="UrlFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="UrlFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=672740574]
 layout_mode = 2
 text = "Server URL"
 
-[node name="UrlInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="UrlInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=283694777]
 unique_name_in_owner = true
-placeholder_text = "https://notes.example.com"
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+placeholder_text = "https://notes.example.com"
 
-[node name="UsernameFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="UsernameFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=69203327]
 layout_mode = 2
 text = "Username"
 
-[node name="UsernameInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="UsernameInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1098061650]
 unique_name_in_owner = true
-placeholder_text = "your username"
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+placeholder_text = "your username"
 
-[node name="ServerPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="ServerPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=879560142]
 layout_mode = 2
 text = "Server Password"
 
-[node name="ServerPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="ServerPassRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=589426137]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ServerPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerPassRow" unique_id=1127929159]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
 placeholder_text = "server password"
 secret = true
-custom_minimum_size = Vector2(0, 48)
 
-[node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="ServerPassShowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerPassRow" unique_id=1487664849]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 48)
+layout_mode = 2
+text = "Show"
+
+[node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=583255427]
 layout_mode = 2
 
-[node name="LocalPassHint" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassHint" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1434383409]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 text = "Local password — encrypts your stored data on this device."
 autowrap_mode = 3
-modulate = Color(0.7, 0.7, 0.7, 1)
-theme_override_font_sizes/font_size = 13
 
-[node name="LocalPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=418412948]
 layout_mode = 2
 text = "Local Password"
 
-[node name="LocalPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1943971748]
 layout_mode = 2
-unique_name_in_owner = true
-placeholder_text = "local password (min 4 chars)"
-secret = true
-custom_minimum_size = Vector2(0, 48)
+theme_override_constants/separation = 8
 
-[node name="LocalPassConfirmFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassRow" unique_id=899147341]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "local password (min 4 chars)"
+virtual_keyboard_type = 2
+secret = true
+
+[node name="LocalPassShowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassRow" unique_id=1609577938]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 48)
+layout_mode = 2
+text = "Show"
+
+[node name="LocalPassConfirmFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1797671661]
 layout_mode = 2
 text = "Confirm Local Password"
 
-[node name="LocalPassConfirmInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassConfirmRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=390107608]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LocalPassConfirmInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassConfirmRow" unique_id=1097734632]
 unique_name_in_owner = true
-placeholder_text = "repeat local password"
-secret = true
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "repeat local password"
+virtual_keyboard_type = 2
+secret = true
 
-[node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="LocalPassConfirmShowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassConfirmRow" unique_id=2105030957]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 48)
+layout_mode = 2
+text = "Show"
+
+[node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1086263653]
 layout_mode = 2
 
-[node name="SyncModeFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="SyncModeFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=9720967]
 layout_mode = 2
 text = "Sync Mode"
 
-[node name="SyncModeOption" type="OptionButton" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="SyncModeOption" type="OptionButton" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1177341560]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
-
-[node name="ErrorLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="ErrorLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=583955504]
 unique_name_in_owner = true
-text = ""
+modulate = Color(1, 0.35, 0.35, 1)
+layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 3
-modulate = Color(1, 0.35, 0.35, 1)
 
-[node name="SaveBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+[node name="SaveBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1173935341]
 unique_name_in_owner = true
-text = "Save Account"
 custom_minimum_size = Vector2(0, 56)
-
-[node name="CancelBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+text = "Save Account"
+
+[node name="CancelBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=751758849]
 unique_name_in_owner = true
-text = "Cancel"
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Cancel"

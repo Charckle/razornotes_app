@@ -3,11 +3,14 @@ extends Control
 var _selected_account_id: String = ""
 var _thread: Thread = null
 
+const _PassVis := preload("res://components/password_visibility_helper.gd")
+
 
 func _ready() -> void:
 	%AddAccountBtn.pressed.connect(_go_to_add_account)
 	%UnlockBtn.pressed.connect(_on_unlock_pressed)
 	%CancelUnlockBtn.pressed.connect(_show_account_list)
+	_PassVis.bind_button(%UnlockPassShowBtn, %LocalPassInput)
 
 	if not AccountManager.has_accounts():
 		_go_to_add_account()
@@ -29,6 +32,7 @@ func _show_account_list() -> void:
 	%AccountListView.show()
 	%UnlockView.hide()
 	%LocalPassInput.text = ""
+	_mask_unlock_pass_visible()
 	%UnlockErrorLabel.text = ""
 	_refresh_list()
 
@@ -63,6 +67,7 @@ func _on_account_selected(account_id: String, label: String) -> void:
 	_selected_account_id = account_id
 	%UnlockTitleLabel.text = "Unlock: %s" % label
 	%LocalPassInput.text = ""
+	_mask_unlock_pass_visible()
 	%UnlockErrorLabel.text = ""
 	%AccountListView.hide()
 	%UnlockView.show()
@@ -99,6 +104,12 @@ func _finish_unlock(ok: bool) -> void:
 	else:
 		%UnlockErrorLabel.text = "Wrong password."
 		%LocalPassInput.text = ""
+		_mask_unlock_pass_visible()
+
+
+func _mask_unlock_pass_visible() -> void:
+	%LocalPassInput.secret = true
+	%UnlockPassShowBtn.text = "Show"
 
 
 func _go_to_add_account() -> void:

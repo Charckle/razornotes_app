@@ -29,16 +29,10 @@ func _do_search() -> void:
 
 	ApiClient.search_notes(key, func(ok: bool, data) -> void:
 		%SearchBtn.disabled = false
-		print("[search] query=\"%s\" ok=%s" % [key, ok])
-		if ok and (data is Dictionary or data is Array):
-			print("[search] response JSON: ", JSON.stringify(data))
-		else:
-			print("[search] data (raw): ", data)
 		if not ok:
 			_local_search(key, true)
 			return
 		var results: Array = _normalize_server_search_results(data)
-		print("[search] items shown after parse: %d" % results.size())
 		_set_status("", false)
 		_show_results(results)
 	)
