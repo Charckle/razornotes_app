@@ -8,12 +8,16 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="razor_app"
-config/features=PackedStringArray("4.5", "Mobile")
-config/icon="res://icon.svg"
 run/main_scene="res://menus/account_select/account_select.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
+config/icon="res://icon.svg"
 
 [autoload]
 
@@ -25,7 +29,12 @@ LocalStorage="*res://autoloads/local_storage.gd"
 
 window/size/viewport_width=400
 window/size/viewport_height=800
+window/size/mode=3
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
 
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
