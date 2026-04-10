@@ -16,6 +16,7 @@ func _ready() -> void:
 	if _sync_mode == "full_mirror":
 		%SyncStatusLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
 		%SyncNowBtn.pressed.connect(_start_full_mirror_sync)
+		SyncManager.sync_completed.connect(_on_background_sync_done)
 
 	%RetryBtn.pressed.connect(func() -> void:
 		%RetryBtn.hide()
@@ -236,3 +237,9 @@ func _start_full_mirror_sync() -> void:
 			%SyncStatusLabel.text = "Sync failed."
 			%SyncErrorDialog.popup_error("Sync failed", error_msg)
 	)
+
+
+func _on_background_sync_done(success: bool) -> void:
+	if success:
+		%SyncStatusLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
+		_load_from_local_cache()

@@ -17,6 +17,17 @@ content_margin_right = 20.0
 content_margin_top = 16.0
 content_margin_bottom = 16.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+bg_color = Color(0.22, 0.22, 0.24, 0.94)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 28.0
+content_margin_top = 16.0
+content_margin_right = 28.0
+content_margin_bottom = 16.0
+
 [node name="NoteView" type="Control"]
 layout_mode = 1
 anchors_preset = 15
@@ -65,6 +76,13 @@ text = "Raw"
 custom_minimum_size = Vector2(60, 44)
 theme_override_font_sizes/font_size = 13
 
+[node name="CopyBtn" type="Button" parent="VBoxContainer/TopBarPanel/TopBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Copy"
+custom_minimum_size = Vector2(60, 44)
+theme_override_font_sizes/font_size = 13
+
 [node name="LoadingLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
@@ -103,3 +121,44 @@ text = ""
 horizontal_alignment = 2
 theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
+
+[node name="ToastHideTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+wait_time = 1.25
+
+[node name="ToastLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ToastOverlay" type="Control" parent="ToastLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ToastCenter" type="CenterContainer" parent="ToastLayer/ToastOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ToastPanel" type="PanelContainer" parent="ToastLayer/ToastOverlay/ToastCenter"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastLayer/ToastOverlay/ToastCenter/ToastPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+text = "Copied!"

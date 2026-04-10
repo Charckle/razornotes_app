@@ -11,6 +11,8 @@ var _formatted: bool = true
 func _ready() -> void:
 	%BackBtn.pressed.connect(func() -> void: back_requested.emit())
 	%FormatBtn.pressed.connect(_on_format_btn_pressed)
+	%CopyBtn.pressed.connect(_on_copy_btn_pressed)
+	%ToastHideTimer.timeout.connect(func() -> void: %ToastPanel.hide())
 	_sync_mode = AccountManager.get_current_account().get("sync_mode", "remote_only")
 	_update_format_btn()
 
@@ -114,3 +116,10 @@ func _on_format_btn_pressed() -> void:
 
 func _update_format_btn() -> void:
 	%FormatBtn.text = "Raw" if _formatted else "Formatted"
+
+
+func _on_copy_btn_pressed() -> void:
+	DisplayServer.clipboard_set(_raw_text)
+	%ToastPanel.show()
+	%ToastHideTimer.stop()
+	%ToastHideTimer.start()

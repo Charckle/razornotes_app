@@ -4,8 +4,27 @@ extends Node
 ## Callback signature: func(success: bool, error_message: String)
 ## error_message is "" on success, human-readable reason on failure.
 
+signal sync_completed(success: bool)
+
+const AUTO_SYNC_INTERVAL := 180   ## seconds between automatic syncs
+const FAILURE_BACKOFF    := 30    ## retry delay after a failed sync
+
 var _syncing: bool = false
 var _pending: Array[Callable] = []
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		_maybe_auto_sync()
+
+
+func _maybe_auto_sync() -> void:
+	var account := AccountManager.get_current_account()
+	if account.get("sync_mode", "") != "full_mirror":
+		return
+	var elapsed = int(Time.get_unix_time_from_system()) - account.get("last_synced", 0)
+	if elapsed >= AUTO_SYNC_INTERVAL:
+		start_sync(func(success: bool, _err: String) -> void: sync_completed.emit(success))
 
 
 func start_sync(on_done: Callable) -> void:
@@ -69,6 +88,11 @@ func _process_hash_diff(server_hashes: Array) -> void:
 
 func _finish_all(success: bool, error_message: String) -> void:
 	_syncing = false
+	if not success:
+		# Set last_synced to (now - interval + backoff) so the next focus-in
+		# retries after FAILURE_BACKOFF seconds rather than immediately.
+		var backoff_ts := int(Time.get_unix_time_from_system()) - AUTO_SYNC_INTERVAL + FAILURE_BACKOFF
+		AccountManager.set_last_synced(backoff_ts)
 	var cbs := _pending.duplicate()
 	_pending.clear()
 	for cb in cbs:

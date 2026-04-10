@@ -6,82 +6,82 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_navbar"]
 bg_color = Color(0.173, 0.173, 0.173, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
-bg_color = Color(0.22, 0.22, 0.24, 0.94)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-content_margin_left = 28.0
-content_margin_top = 16.0
-content_margin_right = 28.0
-content_margin_bottom = 16.0
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_normal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.78, 0.63, 0.14, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_hover"]
-bg_color = Color(0.88, 0.74, 0.22, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_pressed"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.62, 0.48, 0.08, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_hover"]
 content_margin_left = 12.0
 content_margin_top = 8.0
 content_margin_right = 12.0
 content_margin_bottom = 8.0
+bg_color = Color(0.88, 0.74, 0.22, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_normal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.38, 0.06, 0.1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_hover"]
-bg_color = Color(0.5, 0.1, 0.14, 1)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_pressed"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 bg_color = Color(0.28, 0.04, 0.07, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_hover"]
 content_margin_left = 12.0
 content_margin_top = 8.0
 content_margin_right = 12.0
 content_margin_bottom = 8.0
+bg_color = Color(0.5, 0.1, 0.14, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+content_margin_left = 28.0
+content_margin_top = 16.0
+content_margin_right = 28.0
+content_margin_bottom = 16.0
+bg_color = Color(0.22, 0.22, 0.24, 0.94)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="MainMenu" type="Control" unique_id=683464784]
 layout_mode = 3
@@ -147,11 +147,11 @@ custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.12, 0.09, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.12, 0.09, 0.02, 1)
 theme_override_colors/font_pressed_color = Color(0.12, 0.09, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.12, 0.09, 0.02, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_gold_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_gold_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_gold_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gold_hover")
 text = "Get Cl"
 
 [node name="SetClBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox/BrowseRow2" unique_id=381833648]
@@ -160,11 +160,11 @@ custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.96, 0.92, 0.92, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.85, 0.8, 0.8, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_darkred_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_darkred_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_darkred_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_darkred_hover")
 text = "Set Cl"
 
 [node name="NavBarPanel" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1921852582]
@@ -205,16 +205,16 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
 
-[node name="ToastHideTimer" type="Timer" parent="."]
+[node name="ToastHideTimer" type="Timer" parent="." unique_id=940678183]
 unique_name_in_owner = true
-one_shot = true
 wait_time = 1.25
+one_shot = true
 
-[node name="ToastLayer" type="CanvasLayer" parent="."]
+[node name="ToastLayer" type="CanvasLayer" parent="." unique_id=1872566009]
 layer = 100
 
 [node name="ToastOverlay" type="Control" parent="ToastLayer" unique_id=2000000001]
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -241,7 +241,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
 [node name="ToastLabel" type="Label" parent="ToastLayer/ToastOverlay/ToastCenter/ToastPanel" unique_id=2000000004]
 unique_name_in_owner = true
 layout_mode = 2
-mouse_filter = 2
-horizontal_alignment = 1
 theme_override_font_sizes/font_size = 18
 text = "Copied!"
+horizontal_alignment = 1

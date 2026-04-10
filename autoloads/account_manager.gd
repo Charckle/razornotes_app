@@ -310,13 +310,16 @@ func clear_refresh_token() -> void:
 	save_refresh_token("")
 
 func update_last_synced() -> void:
+	set_last_synced(int(Time.get_unix_time_from_system()))
+
+
+func set_last_synced(ts: int) -> void:
 	if _current_meta.is_empty():
 		return
-	var now := int(Time.get_unix_time_from_system())
-	_current_meta["last_synced"] = now
+	_current_meta["last_synced"] = ts
 	for meta in _accounts_meta:
 		if meta["id"] == _current_meta["id"]:
-			meta["last_synced"] = now
+			meta["last_synced"] = ts
 			break
 	_save_accounts_meta()
 
