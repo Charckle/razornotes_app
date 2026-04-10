@@ -126,28 +126,6 @@ custom_minimum_size = Vector2(88, 48)
 layout_mode = 2
 text = "Show"
 
-[node name="LocalPassConfirmFieldLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1797671661]
-layout_mode = 2
-text = "Confirm Local Password"
-
-[node name="LocalPassConfirmRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=390107608]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="LocalPassConfirmInput" type="LineEdit" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassConfirmRow" unique_id=1097734632]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "repeat local password"
-virtual_keyboard_type = 2
-secret = true
-
-[node name="LocalPassConfirmShowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/LocalPassConfirmRow" unique_id=2105030957]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(88, 48)
-layout_mode = 2
-text = "Show"
 
 [node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1086263653]
 layout_mode = 2

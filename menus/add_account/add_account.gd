@@ -14,7 +14,6 @@ func _ready() -> void:
 	%SyncModeOption.add_item("Full mirror (download everything)", 2)
 	_PassVis.bind_button(%ServerPassShowBtn, %ServerPassInput)
 	_PassVis.bind_button(%LocalPassShowBtn, %LocalPassInput)
-	_PassVis.bind_button(%LocalPassConfirmShowBtn, %LocalPassConfirmInput)
 
 
 func _on_save_pressed() -> void:
@@ -25,11 +24,6 @@ func _on_save_pressed() -> void:
 	var username : String = %UsernameInput.text.strip_edges()
 	var srv_pass : String = %ServerPassInput.text
 	var loc_pass : String = %LocalPassInput.text
-	var loc_conf : String = %LocalPassConfirmInput.text
-
-	if loc_pass != loc_conf:
-		%ErrorLabel.text = "Local passwords do not match."
-		return
 
 	if loc_pass.length() < 4:
 		%ErrorLabel.text = "Local password must be at least 4 characters."
