@@ -116,16 +116,33 @@ unique_name_in_owner = true
 text = "Check"
 custom_minimum_size = Vector2(64, 32)
 
+[node name="SyncNowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerStatusRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Sync Now"
+custom_minimum_size = Vector2(88, 32)
+visible = false
+
 [node name="UsernameLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Username"
 theme_override_font_sizes/font_size = 13
 theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
-[node name="UsernameValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="UsernameRow" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UsernameValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/UsernameRow"]
 layout_mode = 2
 unique_name_in_owner = true
 text = "—"
+size_flags_horizontal = 3
+
+[node name="UserCredentialsBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/UsernameRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "User credentials"
 
 [node name="SyncModeLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -138,11 +155,6 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "—"
 
-[node name="UserCredentialsBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "User credentials"
-custom_minimum_size = Vector2(0, 48)
 
 [node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -158,11 +170,6 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "Last synced: —"
 
-[node name="SyncNowBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/SyncSection"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "Sync Now"
-custom_minimum_size = Vector2(0, 52)
 
 [node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -191,50 +198,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
-[node name="RemoveAccountBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "Remove This Account"
-custom_minimum_size = Vector2(0, 52)
-theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
-
-[node name="ConfirmRemovePanel" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-unique_name_in_owner = true
-visible = false
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="ConfirmLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer"]
-layout_mode = 2
-text = "Remove this account and all its local data? This cannot be undone."
-autowrap_mode = 3
-horizontal_alignment = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="ConfirmYesBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-unique_name_in_owner = true
-size_flags_horizontal = 3
-text = "Yes, Remove"
-custom_minimum_size = Vector2(0, 48)
-theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
-theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
-
-[node name="ConfirmNoBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-unique_name_in_owner = true
-size_flags_horizontal = 3
-text = "Cancel"
-custom_minimum_size = Vector2(0, 48)
 
 [node name="ErrorDialog" parent="." instance=ExtResource("3_errdlg")]
 unique_name_in_owner = true

@@ -15,6 +15,9 @@ func _ready() -> void:
 
 	%SaveBtn.pressed.connect(_on_save_pressed)
 	%CancelBtn.pressed.connect(_on_cancel_pressed)
+	%RemoveAccountBtn.pressed.connect(func() -> void: %ConfirmRemovePanel.show())
+	%ConfirmNoBtn.pressed.connect(func() -> void: %ConfirmRemovePanel.hide())
+	%ConfirmYesBtn.pressed.connect(_on_remove_account)
 
 	%SyncModeOption.add_item("Remote only (no local storage)", 0)
 	%SyncModeOption.add_item("Local some (cache on open)", 1)
@@ -88,3 +91,12 @@ func _finish_save(err: String) -> void:
 
 func _on_cancel_pressed() -> void:
 	get_tree().change_scene_to_file("res://menus/main_menu/main_menu.tscn")
+
+
+func _on_remove_account() -> void:
+	var account_id: String = AccountManager.get_current_account().get("id", "")
+	if account_id.is_empty():
+		return
+	LocalStorage.clear_account_cache(account_id)
+	AccountManager.remove_account(account_id)
+	get_tree().change_scene_to_file("res://menus/account_select/account_select.tscn")

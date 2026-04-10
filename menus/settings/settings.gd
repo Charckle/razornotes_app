@@ -14,6 +14,7 @@ func _ready() -> void:
 	%SyncSection.visible = sync_mode == "full_mirror"
 	if sync_mode == "full_mirror":
 		%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
+		%SyncNowBtn.visible = true
 		%SyncNowBtn.pressed.connect(_on_sync_now_pressed)
 
 	%UserCredentialsBtn.pressed.connect(_on_user_credentials)
@@ -21,10 +22,6 @@ func _ready() -> void:
 	%AddAccountBtn.pressed.connect(_on_add_account)
 	%LogoutBtn.pressed.connect(_on_logout)
 	%CheckServerBtn.pressed.connect(_check_server_status)
-
-	%RemoveAccountBtn.pressed.connect(func() -> void: %ConfirmRemovePanel.show())
-	%ConfirmNoBtn.pressed.connect(func() -> void: %ConfirmRemovePanel.hide())
-	%ConfirmYesBtn.pressed.connect(_on_remove_account)
 
 	_check_server_status()
 
@@ -82,10 +79,3 @@ func _on_logout() -> void:
 	get_tree().change_scene_to_file("res://menus/account_select/account_select.tscn")
 
 
-func _on_remove_account() -> void:
-	var account_id: String = AccountManager.get_current_account().get("id", "")
-	if account_id.is_empty():
-		return
-	LocalStorage.clear_account_cache(account_id)
-	AccountManager.remove_account(account_id)
-	get_tree().change_scene_to_file("res://menus/account_select/account_select.tscn")
