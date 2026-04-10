@@ -1,34 +1,31 @@
 extends RefCounted
-## Adds long-press-to-paste behaviour to a LineEdit.
-## Holding the field for HOLD_TIME seconds shows a floating "Paste" button.
+## Adds double-tap-to-paste behaviour to a LineEdit.
+## Tapping the field twice within DOUBLE_TAP_TIME seconds shows a floating "Paste" button.
 ## Useful on Android where the native long-press paste menu is suppressed
 ## for password-type inputs.
 
-const HOLD_TIME := 0.6
+const DOUBLE_TAP_TIME := 0.35
 
 
 static func bind_field(field: LineEdit) -> void:
-	var pressing := [false]
+	var last_tap_time := [-1.0]
 
 	field.gui_input.connect(func(event: InputEvent) -> void:
 		var pressed_now := false
-		var released_now := false
 
 		if event is InputEventScreenTouch:
 			pressed_now = event.pressed
-			released_now = not event.pressed
 		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			pressed_now = event.pressed
-			released_now = not event.pressed
 
 		if pressed_now:
-			pressing[0] = true
-			field.get_tree().create_timer(HOLD_TIME).timeout.connect(func() -> void:
-				if pressing[0]:
-					_show_paste(field)
-			)
-		elif released_now:
-			pressing[0] = false
+			var now := Time.get_ticks_msec() / 1000.0
+			var since_last: float = now - last_tap_time[0]
+			if last_tap_time[0] >= 0.0 and since_last <= DOUBLE_TAP_TIME:
+				_show_paste(field)
+				last_tap_time[0] = -1.0
+			else:
+				last_tap_time[0] = now
 	)
 
 
