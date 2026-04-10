@@ -3,8 +3,8 @@ extends Node
 ## Local note cache, per account. All note content is AES-encrypted via AccountManager.
 ##
 ## File layout:
-##   user://cache/<account_id>/index.enc       — encrypted JSON {note_id_str: {v_hash, title, preview}}
-##   user://cache/<account_id>/notes/<id>.enc  — encrypted JSON {_id, title, text}
+##   user://cache/<account_id>/index.enc       — encrypted JSON {note_id_str: {v_hash, title, preview, pinned, relevant, date_mod}}
+##   user://cache/<account_id>/notes/<id>.enc  — encrypted JSON {_id, title, text, pinned, relevant, date_mod}
 ##   user://cache/<account_id>/recent.json     — plaintext [note_id, ...] (last 10 opened)
 
 const CACHE_BASE := "user://cache"
@@ -27,7 +27,7 @@ func is_ready() -> bool:
 
 # ── Note index ────────────────────────────────────────────────────────────────
 
-## Returns {note_id_str: {v_hash, title, preview}} from the encrypted local index.
+## Returns {note_id_str: {v_hash, title, preview, pinned, relevant, date_mod}} from the encrypted local index.
 func load_index() -> Dictionary:
 	var data := _read_enc(_index_path())
 	if data.is_empty():

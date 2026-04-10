@@ -77,8 +77,7 @@ func show_all() -> void:
 					%RetryBtn.show()
 			)
 		"local_some", "full_mirror":
-			# Local index already contains every note we have cached.
-			_load_from_local_cache()
+			_load_all_from_local_cache()
 
 
 func _load_notes() -> void:
@@ -89,11 +88,6 @@ func _load_notes() -> void:
 	%ErrorLabel.hide()
 	%RetryBtn.hide()
 	_clear_notes()
-
-	# full_mirror always serves from local cache — no auth needed.
-	if _sync_mode == "full_mirror":
-		_load_from_local_cache()
-		return
 
 	# For server modes, wait until we have a valid token.
 	if not ApiClient.is_authenticated():
@@ -107,11 +101,12 @@ func _load_notes() -> void:
 	match _sync_mode:
 		"remote_only":
 			_fetch_from_server(false)
-		"local_some":
+		"local_some", "full_mirror":
 			_fetch_from_server(true)  # fall back to local on failure
 
 
 func _fetch_from_server(allow_local_fallback: bool) -> void:
+	print("[NoteList] Fetching note list from server…")
 	var state := {
 		"count": 2,
 		"pinned": [],
@@ -120,14 +115,19 @@ func _fetch_from_server(allow_local_fallback: bool) -> void:
 	}
 
 	var _handle := func() -> void:
+		if not is_instance_valid(self):
+			return
 		state["count"] -= 1
 		if state["count"] > 0:
 			return
 		if state["failed"] == 0:
+			print("[NoteList] Server responded — displaying live data.")
 			_display_notes(state["pinned"], state["index"])
 		elif allow_local_fallback:
+			print("[NoteList] Server unreachable — falling back to local cache.")
 			_load_from_local_cache()
 		else:
+			print("[NoteList] Server unreachable — no local fallback available.")
 			%LoadingLabel.hide()
 			%ErrorLabel.text = "Could not reach server."
 			%ErrorLabel.show()
@@ -154,14 +154,44 @@ func _load_from_local_cache() -> void:
 		%LoadingLabel.text = "No local notes. Use Sync to download."
 		return
 
+	var pinned: Array = []
+	var relevant: Array = []
+	for note_id_str in index:
+		var entry: Dictionary = index[note_id_str]
+		var card := {
+			"_id": int(note_id_str),
+			"title": entry.get("title", ""),
+			"text": entry.get("preview", ""),
+			"date_mod": entry.get("date_mod", "")
+		}
+		if entry.get("pinned", false):
+			pinned.append(card)
+		elif entry.get("relevant", true):
+			relevant.append(card)
+
+	relevant.sort_custom(func(a, b): return a["date_mod"] > b["date_mod"])
+	if relevant.size() > 15:
+		relevant.resize(15)
+
+	_display_notes(pinned, relevant)
+
+
+func _load_all_from_local_cache() -> void:
+	var index := LocalStorage.load_index()
+	if index.is_empty():
+		%LoadingLabel.text = "No local notes. Use Sync to download."
+		return
+
 	var notes: Array = []
 	for note_id_str in index:
 		var entry: Dictionary = index[note_id_str]
 		notes.append({
 			"_id": int(note_id_str),
 			"title": entry.get("title", ""),
-			"text": entry.get("preview", "")
+			"text": entry.get("preview", ""),
+			"date_mod": entry.get("date_mod", "")
 		})
+	notes.sort_custom(func(a, b): return a["date_mod"] > b["date_mod"])
 	_display_notes([], notes)
 
 
@@ -211,6 +241,10 @@ func _clear_notes() -> void:
 
 func _on_auth_failed_while_loading() -> void:
 	%RetryTimer.stop()
+	if _sync_mode == "full_mirror":
+		print("[NoteList] Auth failed — falling back to local cache.")
+		_load_from_local_cache()
+		return
 	%LoadingLabel.hide()
 	%ErrorLabel.text = "Could not connect to server."
 	%ErrorLabel.show()
@@ -227,15 +261,16 @@ func _start_full_mirror_sync() -> void:
 	%SyncNowBtn.disabled = true
 	%SyncNowBtn.text = "Syncing…"
 	%SyncStatusLabel.text = "Syncing…"
-	SyncManager.start_sync(func(success: bool, error_msg: String) -> void:
+	SyncManager.start_sync(func(success: bool, msg: String) -> void:
 		%SyncNowBtn.disabled = false
 		%SyncNowBtn.text = "Sync Now"
 		if success:
 			%SyncStatusLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
+			%SyncErrorDialog.popup_error("Sync complete", msg)
 			_load_from_local_cache()
 		else:
 			%SyncStatusLabel.text = "Sync failed."
-			%SyncErrorDialog.popup_error("Sync failed", error_msg)
+			%SyncErrorDialog.popup_error("Sync failed", msg)
 	)
 
 

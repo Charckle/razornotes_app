@@ -170,6 +170,12 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "Last synced: —"
 
+[node name="RedownloadAllBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/SyncSection"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Re-download All Notes"
+custom_minimum_size = Vector2(0, 40)
+
 
 [node name="Sep2" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -16,6 +16,7 @@ func _ready() -> void:
 		%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
 		%SyncNowBtn.visible = true
 		%SyncNowBtn.pressed.connect(_on_sync_now_pressed)
+		%RedownloadAllBtn.pressed.connect(_on_redownload_all_pressed)
 
 	%UserCredentialsBtn.pressed.connect(_on_user_credentials)
 	%SwitchAccountBtn.pressed.connect(_on_switch_account)
@@ -29,17 +30,37 @@ func _ready() -> void:
 
 
 func _on_sync_now_pressed() -> void:
-	%SyncNowBtn.disabled = true
-	%SyncNowBtn.text = "Syncing…"
-	SyncManager.start_sync(func(success: bool, error_msg: String) -> void:
-		%SyncNowBtn.disabled = false
-		%SyncNowBtn.text = "Sync Now"
+	_set_sync_buttons_busy(true, "Syncing…")
+	SyncManager.start_sync(func(success: bool, msg: String) -> void:
+		_set_sync_buttons_busy(false, "Sync Now")
 		if success:
 			%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
+			_show_error_popup("Sync complete", msg)
 		else:
 			%LastSyncedLabel.text = "Sync failed."
-			_show_error_popup("Sync failed", error_msg)
+			_show_error_popup("Sync failed", msg)
 	)
+
+
+func _on_redownload_all_pressed() -> void:
+	_set_sync_buttons_busy(true, "Syncing…")
+	LocalStorage.save_index({})
+	SyncManager.start_sync(func(success: bool, msg: String) -> void:
+		_set_sync_buttons_busy(false, "Sync Now")
+		if success:
+			%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
+			_show_error_popup("Sync complete", msg)
+		else:
+			%LastSyncedLabel.text = "Sync failed."
+			_show_error_popup("Sync failed", msg)
+	)
+
+
+func _set_sync_buttons_busy(busy: bool, sync_now_label: String) -> void:
+	%SyncNowBtn.disabled = busy
+	%SyncNowBtn.text = sync_now_label
+	%RedownloadAllBtn.disabled = busy
+	%RedownloadAllBtn.text = "Re-downloading…" if busy else "Re-download All Notes"
 
 
 func _check_server_status() -> void:
