@@ -23,6 +23,8 @@ func _ready() -> void:
 	%LogoutBtn.pressed.connect(_on_logout)
 	%CheckServerBtn.pressed.connect(_check_server_status)
 
+	%VersionLabel.text = "v" + ProjectSettings.get_setting("application/config/version", "?")
+
 	_check_server_status()
 
 

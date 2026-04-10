@@ -129,6 +129,12 @@ custom_minimum_size = Vector2(88, 48)
 layout_mode = 2
 text = "Show"
 
+[node name="ServerPassPasteBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ServerPassRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 48)
+layout_mode = 2
+text = "Paste"
+
 [node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 

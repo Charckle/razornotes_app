@@ -14,7 +14,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="razor_app"
+config/name="RazorNotes"
+config/version="1.0.0"
 run/main_scene="res://menus/account_select/account_select.tscn"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
@@ -38,4 +39,4 @@ window/handheld/orientation=1
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
-environment/defaults/default_clear_color=Color(0.831, 0.800, 0.541, 1)
+environment/defaults/default_clear_color=Color(0.831, 0.8, 0.541, 1)

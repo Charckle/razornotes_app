@@ -199,5 +199,13 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
 
+[node name="VersionLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "v—"
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
+horizontal_alignment = 1
+
 [node name="ErrorDialog" parent="." instance=ExtResource("3_errdlg")]
 unique_name_in_owner = true

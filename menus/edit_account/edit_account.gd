@@ -40,6 +40,12 @@ func _ready() -> void:
 	_PassVis.bind_button(%ServerPassShowBtn, %ServerPassInput)
 	_PassVis.bind_button(%CurrentLocalPassShowBtn, %CurrentLocalPassInput)
 	_PassVis.bind_button(%NewLocalPassShowBtn, %NewLocalPassInput)
+	%ServerPassPasteBtn.pressed.connect(func() -> void:
+		var clip := DisplayServer.clipboard_get()
+		if not clip.is_empty():
+			%ServerPassInput.text = clip
+			%ServerPassInput.caret_column = clip.length()
+	)
 	_LongPaste.bind_field(%LabelInput)
 	_LongPaste.bind_field(%UrlInput)
 	_LongPaste.bind_field(%UsernameInput)
