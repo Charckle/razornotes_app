@@ -1,6 +1,42 @@
 [gd_scene format=3 uid="uid://csettings00001"]
 
 [ext_resource type="Script" path="res://menus/settings/settings.gd" id="1_settings"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" uid="uid://cerrordlg001" path="res://components/error_dialog/error_dialog.tscn" id="3_errdlg"]
+
+; ── Danger button styles (Bootstrap #dc3545) ──
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_normal"]
+bg_color = Color(0.863, 0.208, 0.271, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_hover"]
+bg_color = Color(0.773, 0.161, 0.224, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_danger_pressed"]
+bg_color = Color(0.663, 0.118, 0.176, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_left = 5
+corner_radius_bottom_right = 5
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 6.0
+content_margin_bottom = 6.0
 
 [node name="Settings" type="Control"]
 layout_mode = 1
@@ -9,6 +45,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_settings")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
@@ -43,7 +80,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Account"
 theme_override_font_sizes/font_size = 13
-modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
 [node name="AccountLabelValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -55,7 +92,7 @@ theme_override_font_sizes/font_size = 18
 layout_mode = 2
 text = "Server"
 theme_override_font_sizes/font_size = 13
-modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
 [node name="ServerUrlValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -83,7 +120,7 @@ custom_minimum_size = Vector2(64, 32)
 layout_mode = 2
 text = "Username"
 theme_override_font_sizes/font_size = 13
-modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
 [node name="UsernameValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -94,12 +131,18 @@ text = "—"
 layout_mode = 2
 text = "Sync mode"
 theme_override_font_sizes/font_size = 13
-modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
 [node name="SyncModeValue" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
 text = "—"
+
+[node name="UserCredentialsBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "User credentials"
+custom_minimum_size = Vector2(0, 48)
 
 [node name="Sep1" type="HSeparator" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -144,14 +187,18 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "Logout (clears session)"
 custom_minimum_size = Vector2(0, 52)
-modulate = Color(1, 0.5, 0.5, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
 [node name="RemoveAccountBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
 text = "Remove This Account"
 custom_minimum_size = Vector2(0, 52)
-modulate = Color(1, 0.2, 0.2, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
 [node name="ConfirmRemovePanel" type="PanelContainer" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -177,8 +224,10 @@ layout_mode = 2
 unique_name_in_owner = true
 size_flags_horizontal = 3
 text = "Yes, Remove"
-modulate = Color(1, 0.2, 0.2, 1)
 custom_minimum_size = Vector2(0, 48)
+theme_override_styles/normal = SubResource("StyleBoxFlat_danger_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
 [node name="ConfirmNoBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer/ConfirmRemovePanel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -186,3 +235,6 @@ unique_name_in_owner = true
 size_flags_horizontal = 3
 text = "Cancel"
 custom_minimum_size = Vector2(0, 48)
+
+[node name="ErrorDialog" parent="." instance=ExtResource("3_errdlg")]
+unique_name_in_owner = true

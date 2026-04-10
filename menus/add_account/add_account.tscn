@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://caddacc000001"]
 
 [ext_resource type="Script" uid="uid://rs341pk5ugrq" path="res://menus/add_account/add_account.gd" id="1_addacc"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
 
 [node name="AddAccount" type="Control" unique_id=719884354]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_addacc")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=290113846]
@@ -97,9 +99,9 @@ text = "Show"
 layout_mode = 2
 
 [node name="LocalPassHint" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1434383409]
-modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 text = "Local password — encrypts your stored data on this device."
 autowrap_mode = 3
 
@@ -140,10 +142,10 @@ layout_mode = 2
 
 [node name="ErrorLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=583955504]
 unique_name_in_owner = true
-modulate = Color(1, 0.35, 0.35, 1)
 layout_mode = 2
 horizontal_alignment = 1
 autowrap_mode = 3
+theme_override_colors/font_color = Color(0.863, 0.208, 0.271, 1)
 
 [node name="SaveBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer" unique_id=1173935341]
 unique_name_in_owner = true

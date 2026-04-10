@@ -1,6 +1,87 @@
 [gd_scene format=3 uid="uid://cpa6q1pkmayod"]
 
 [ext_resource type="Script" uid="uid://5hsfevthiryg" path="res://menus/main_menu/main_menu.gd" id="1_mainmenu"]
+[ext_resource type="Theme" uid="uid://d4gfem53q5m3y" path="res://razor_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_navbar"]
+bg_color = Color(0.173, 0.173, 0.173, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_toast"]
+bg_color = Color(0.22, 0.22, 0.24, 0.94)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 28.0
+content_margin_top = 16.0
+content_margin_right = 28.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_normal"]
+bg_color = Color(0.78, 0.63, 0.14, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_hover"]
+bg_color = Color(0.88, 0.74, 0.22, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gold_pressed"]
+bg_color = Color(0.62, 0.48, 0.08, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_normal"]
+bg_color = Color(0.38, 0.06, 0.1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_hover"]
+bg_color = Color(0.5, 0.1, 0.14, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_darkred_pressed"]
+bg_color = Color(0.28, 0.04, 0.07, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 
 [node name="MainMenu" type="Control" unique_id=683464784]
 layout_mode = 3
@@ -9,6 +90,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_mainmenu")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1154528645]
@@ -31,30 +113,70 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_navbar")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BrowseMenu" unique_id=24985195]
+[node name="BrowseMenuVBox" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BrowseMenu" unique_id=24985195]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RecentBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/HBoxContainer" unique_id=1146445290]
+[node name="BrowseRow1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox" unique_id=24985196]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RecentBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox/BrowseRow1" unique_id=1146445290]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Recent"
 
-[node name="AllNotesBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/HBoxContainer" unique_id=381833647]
+[node name="AllNotesBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox/BrowseRow1" unique_id=381833647]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "All Notes"
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer" unique_id=1142361112]
+[node name="BrowseRow2" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox" unique_id=24985197]
 layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="GetClBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox/BrowseRow2" unique_id=1146445291]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.12, 0.09, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.12, 0.09, 0.02, 1)
+theme_override_colors/font_pressed_color = Color(0.12, 0.09, 0.02, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_gold_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gold_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_gold_pressed")
+text = "Get Cl"
+
+[node name="SetClBtn" type="Button" parent="PanelContainer/VBoxContainer/BrowseMenu/BrowseMenuVBox/BrowseRow2" unique_id=381833648]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.96, 0.92, 0.92, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.85, 0.8, 0.8, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_darkred_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_darkred_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_darkred_pressed")
+text = "Set Cl"
+
+[node name="NavBarPanel" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1921852582]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_navbar")
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/NavBarPanel" unique_id=1142361112]
+layout_mode = 2
+size_flags_horizontal = 3
 columns = 4
 
-[node name="SearchBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1379002099]
+[node name="SearchBtn" type="Button" parent="PanelContainer/VBoxContainer/NavBarPanel/GridContainer" unique_id=1379002099]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
@@ -62,23 +184,64 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Search"
 
-[node name="HomeBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1392397708]
+[node name="HomeBtn" type="Button" parent="PanelContainer/VBoxContainer/NavBarPanel/GridContainer" unique_id=1392397708]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Home"
 
-[node name="LastBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1131060379]
+[node name="LastBtn" type="Button" parent="PanelContainer/VBoxContainer/NavBarPanel/GridContainer" unique_id=1131060379]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Othr"
 
-[node name="SettingsBtn" type="Button" parent="PanelContainer/VBoxContainer/GridContainer" unique_id=1329108955]
+[node name="SettingsBtn" type="Button" parent="PanelContainer/VBoxContainer/NavBarPanel/GridContainer" unique_id=1329108955]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Settings"
+
+[node name="ToastHideTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+wait_time = 1.25
+
+[node name="ToastLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ToastOverlay" type="Control" parent="ToastLayer" unique_id=2000000001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ToastCenter" type="CenterContainer" parent="ToastLayer/ToastOverlay" unique_id=2000000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ToastPanel" type="PanelContainer" parent="ToastLayer/ToastOverlay/ToastCenter" unique_id=2000000003]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_toast")
+
+[node name="ToastLabel" type="Label" parent="ToastLayer/ToastOverlay/ToastCenter/ToastPanel" unique_id=2000000004]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+text = "Copied!"

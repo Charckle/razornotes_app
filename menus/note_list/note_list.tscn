@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cnotelist00001"]
 
 [ext_resource type="Script" path="res://menus/note_list/note_list.gd" id="1_notelist"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
+[ext_resource type="PackedScene" uid="uid://cerrordlg001" path="res://components/error_dialog/error_dialog.tscn" id="3_errdlg"]
 
 [node name="NoteList" type="Control"]
 layout_mode = 1
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_notelist")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -31,7 +34,7 @@ unique_name_in_owner = true
 text = "Last synced: —"
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-modulate = Color(0.7, 0.7, 0.7, 1)
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 
 [node name="SyncNowBtn" type="Button" parent="VBoxContainer/SyncBar"]
 layout_mode = 2
@@ -51,7 +54,7 @@ unique_name_in_owner = true
 text = ""
 horizontal_alignment = 1
 autowrap_mode = 3
-modulate = Color(1, 0.35, 0.35, 1)
+theme_override_colors/font_color = Color(0.863, 0.208, 0.271, 1)
 visible = false
 
 [node name="RetryBtn" type="Button" parent="VBoxContainer"]
@@ -65,8 +68,19 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="NotesContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="ListMargin" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="NotesContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/ListMargin"]
 layout_mode = 2
 unique_name_in_owner = true
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
+
+[node name="SyncErrorDialog" parent="." instance=ExtResource("3_errdlg")]
+unique_name_in_owner = true

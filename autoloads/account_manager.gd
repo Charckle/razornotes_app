@@ -86,6 +86,113 @@ func add_account(p_label: String, server_url: String, username: String,
 	return ""
 
 
+## Updates the unlocked account (metadata + optional server/local password changes).
+## new_server_password: empty string keeps the current server password.
+## new_local_password: empty keeps the current device key; if set, current_local_password must verify.
+## Returns "" on success. Safe to call from a background thread.
+func update_current_account(p_label: String, server_url: String, username: String, sync_mode: String,
+		new_server_password: String, new_local_password: String, current_local_password: String) -> String:
+	if _current_meta.is_empty() or _derived_key.is_empty():
+		return "Session invalid."
+
+	if p_label.strip_edges().is_empty():
+		return "Account name cannot be empty."
+	var url_clean := server_url.strip_edges()
+	if url_clean.is_empty():
+		return "Server URL cannot be empty."
+	var user_clean := username.strip_edges()
+	if user_clean.is_empty():
+		return "Username cannot be empty."
+
+	const VALID_MODES := ["remote_only", "local_some", "full_mirror"]
+	if not sync_mode in VALID_MODES:
+		return "Invalid sync mode."
+
+	url_clean = url_clean.rstrip("/")
+
+	var creds_changed := (
+		url_clean != String(_current_meta.get("server_url", ""))
+		or user_clean != String(_current_meta.get("username", ""))
+		or not new_server_password.is_empty()
+	)
+
+	var srv_pass := String(_current_meta.get("_server_pass", ""))
+	if not new_server_password.is_empty():
+		srv_pass = new_server_password
+
+	var refresh_keep := "" if creds_changed else String(_current_meta.get("_refresh_token", ""))
+
+	if not new_local_password.is_empty():
+		if new_local_password.length() < 4:
+			return "New local password must be at least 4 characters."
+		if not _verify_local_password(current_local_password):
+			return "Current local password is incorrect."
+
+		var account_id: String = _current_meta["id"]
+		var enc_path := "user://accounts/%s.enc" % account_id
+		var new_salt := Crypto.new().generate_random_bytes(16)
+		var new_key := _pbkdf2(new_local_password.to_utf8_buffer(), new_salt, PBKDF2_ITERATIONS, KEY_SIZE)
+		var secrets := {
+			"magic": "razor_v1",
+			"server_pass": srv_pass,
+			"refresh_token": refresh_keep
+		}
+		var encrypted := _encrypt_account(JSON.stringify(secrets).to_utf8_buffer(), new_key, new_salt)
+		if encrypted.is_empty():
+			return "Encryption failed."
+		var fw := FileAccess.open(enc_path, FileAccess.WRITE)
+		if fw == null:
+			return "Could not write account file."
+		fw.store_buffer(encrypted)
+		fw.close()
+		_derived_key = new_key
+		_current_meta["_server_pass"] = srv_pass
+		_current_meta["_refresh_token"] = refresh_keep
+	else:
+		_current_meta["_server_pass"] = srv_pass
+		_current_meta["_refresh_token"] = refresh_keep
+		_rewrite_secrets_file()
+
+	_current_meta["label"] = p_label.strip_edges()
+	_current_meta["server_url"] = url_clean
+	_current_meta["username"] = user_clean
+	_current_meta["sync_mode"] = sync_mode
+
+	for meta in _accounts_meta:
+		if meta["id"] == _current_meta["id"]:
+			meta["label"] = _current_meta["label"]
+			meta["server_url"] = _current_meta["server_url"]
+			meta["username"] = _current_meta["username"]
+			meta["sync_mode"] = _current_meta["sync_mode"]
+			meta["last_synced"] = _current_meta.get("last_synced", meta.get("last_synced", 0))
+			break
+
+	_save_accounts_meta()
+	return ""
+
+
+func _verify_local_password(password: String) -> bool:
+	var account_id: String = _current_meta.get("id", "")
+	if account_id.is_empty():
+		return false
+	var path := "user://accounts/%s.enc" % account_id
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return false
+	var raw := f.get_buffer(f.get_length())
+	f.close()
+	if raw.size() < 33:
+		return false
+	var salt := raw.slice(0, 16)
+	var key := _pbkdf2(password.to_utf8_buffer(), salt, PBKDF2_ITERATIONS, KEY_SIZE)
+	if key.size() != _derived_key.size():
+		return false
+	for i in range(key.size()):
+		if key[i] != _derived_key[i]:
+			return false
+	return true
+
+
 ## Derives the key from local_password, decrypts the account file, sets session state.
 ## Returns true on success, false on wrong password or missing file.
 ## Safe to call from a background thread — does NOT emit signals.

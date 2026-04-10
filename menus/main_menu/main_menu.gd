@@ -18,6 +18,10 @@ func _ready() -> void:
 
 	%RecentBtn.pressed.connect(_show_recent_notes)
 	%AllNotesBtn.pressed.connect(_show_all_notes)
+	%GetClBtn.pressed.connect(_on_get_clipboard_pressed)
+	%SetClBtn.pressed.connect(_on_set_clipboard_pressed)
+
+	%ToastHideTimer.timeout.connect(_hide_clipboard_toast)
 
 	_swap_view(NoteListScene)
 
@@ -53,6 +57,17 @@ func _close_browse_menu() -> void:
 	%BrowseMenu.hide()
 
 
+func _show_clipboard_toast(message: String) -> void:
+	%ToastLabel.text = message
+	%ToastPanel.visible = true
+	%ToastHideTimer.stop()
+	%ToastHideTimer.start()
+
+
+func _hide_clipboard_toast() -> void:
+	%ToastPanel.visible = false
+
+
 func _show_recent_notes() -> void:
 	_close_browse_menu()
 	_swap_view(NoteListScene)
@@ -65,6 +80,40 @@ func _show_all_notes() -> void:
 	_swap_view(NoteListScene)
 	if _current_view and _current_view.has_method("show_all"):
 		_current_view.show_all()
+
+
+func _on_get_clipboard_pressed() -> void:
+	var fetch := func() -> void:
+		ApiClient.get_clipboard(func(ok: bool, data) -> void:
+			if ok and data is Dictionary:
+				DisplayServer.clipboard_set(str(data.get("clipboard", "")))
+				_close_browse_menu()
+				_show_clipboard_toast("Copied!")
+			else:
+				push_warning("Get clipboard failed: %s" % data)
+				_show_clipboard_toast("Failed!")
+		)
+	if ApiClient.is_authenticated():
+		fetch.call()
+	else:
+		ApiClient.authenticated.connect(fetch, CONNECT_ONE_SHOT)
+
+
+func _on_set_clipboard_pressed() -> void:
+	var clip := DisplayServer.clipboard_get()
+	var push := func() -> void:
+		ApiClient.set_clipboard(clip, func(ok: bool, data) -> void:
+			if ok:
+				_close_browse_menu()
+				_show_clipboard_toast("Pushed!")
+			else:
+				push_warning("Set clipboard failed: %s" % data)
+				_show_clipboard_toast("Failed!")
+		)
+	if ApiClient.is_authenticated():
+		push.call()
+	else:
+		ApiClient.authenticated.connect(push, CONNECT_ONE_SHOT)
 
 
 func _on_auth_failed() -> void:

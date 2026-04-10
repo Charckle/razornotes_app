@@ -1,7 +1,8 @@
 extends Node
 
 ## Full-mirror sync shared between note_list and settings.
-## Callback signature: func(success: bool)
+## Callback signature: func(success: bool, error_message: String)
+## error_message is "" on success, human-readable reason on failure.
 
 var _syncing: bool = false
 var _pending: Array[Callable] = []
@@ -14,7 +15,8 @@ func start_sync(on_done: Callable) -> void:
 	_syncing = true
 	ApiClient.get_notes_hashes(func(ok: bool, data) -> void:
 		if not ok or not data is Array:
-			_finish_all(false)
+			var msg := str(data) if data is String else "Could not fetch note list from server."
+			_finish_all(false, msg)
 			return
 		_process_hash_diff(data)
 	)
@@ -34,10 +36,10 @@ func _process_hash_diff(server_hashes: Array) -> void:
 	if to_fetch.is_empty():
 		LocalStorage.save_index(local_index)
 		AccountManager.update_last_synced()
-		_finish_all(true)
+		_finish_all(true, "")
 		return
 
-	var state := {"remaining": to_fetch.size(), "index": local_index}
+	var state := {"remaining": to_fetch.size(), "index": local_index, "failed": 0}
 
 	for item in to_fetch:
 		var nid: int = item["id"]
@@ -51,17 +53,23 @@ func _process_hash_diff(server_hashes: Array) -> void:
 					"title": note_data.get("title", ""),
 					"preview": note_data.get("text", "").left(100)
 				}
+			else:
+				state["failed"] = state["failed"] + 1
 			state["remaining"] -= 1
 			if state["remaining"] == 0:
 				LocalStorage.save_index(state["index"])
 				AccountManager.update_last_synced()
-				_finish_all(true)
+				var failed_count: int = state["failed"]
+				if failed_count == 0:
+					_finish_all(true, "")
+				else:
+					_finish_all(false, "%d note(s) could not be downloaded." % failed_count)
 		)
 
 
-func _finish_all(success: bool) -> void:
+func _finish_all(success: bool, error_message: String) -> void:
 	_syncing = false
 	var cbs := _pending.duplicate()
 	_pending.clear()
 	for cb in cbs:
-		cb.call(success)
+		cb.call(success, error_message)

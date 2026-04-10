@@ -1,10 +1,25 @@
 [gd_scene format=3 uid="uid://cnotecard00001"]
 
 [ext_resource type="Script" path="res://components/note_card/note_card.gd" id="1_ncard"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.961, 0.941, 0.878, 1)
+border_color = Color(0.749, 0.718, 0.463, 1)
+border_width_bottom = 1
+border_width_left = 1
+border_width_right = 1
+border_width_top = 1
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_left = 6
+corner_radius_bottom_right = 6
 
 [node name="NoteCard" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 72)
 size_flags_horizontal = 3
+theme = ExtResource("2_theme")
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_ncard")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -35,7 +50,7 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "⬇"
 theme_override_font_sizes/font_size = 12
-modulate = Color(0.4, 0.8, 1.0, 1)
+theme_override_colors/font_color = Color(0.051, 0.431, 0.992, 1)
 visible = false
 
 [node name="PreviewLabel" type="Label" parent="MarginContainer/VBoxContainer"]
@@ -43,6 +58,6 @@ layout_mode = 2
 unique_name_in_owner = true
 text = "Note preview text..."
 theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 autowrap_mode = 1
 text_overrun_behavior = 3
-modulate = Color(0.8, 0.8, 0.8, 1)

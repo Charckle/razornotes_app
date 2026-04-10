@@ -116,13 +116,10 @@ func _fetch_from_server(allow_local_fallback: bool) -> void:
 		if state["count"] > 0:
 			return
 		if state["failed"] == 0:
-			print("[home] list OK  pinned=%d  index=%d" % [state["pinned"].size(), state["index"].size()])
 			_display_notes(state["pinned"], state["index"])
 		elif allow_local_fallback:
-			print("[home] list falling back to local cache (failed=%d)" % state["failed"])
 			_load_from_local_cache()
 		else:
-			print("[home] list FAILED remote_only  failed_requests=%d" % state["failed"])
 			%LoadingLabel.hide()
 			%ErrorLabel.text = "Could not reach server."
 			%ErrorLabel.show()
@@ -130,51 +127,17 @@ func _fetch_from_server(allow_local_fallback: bool) -> void:
 	ApiClient.get_notes_pinned(func(ok: bool, data) -> void:
 		if ok and data is Array:
 			state["pinned"] = data
-			print("[home] GET /api/v1/notes/pinned PASS  array_len=%d" % data.size())
 		else:
 			state["failed"] += 1
-			_print_home_fetch_fail("pinned", ok, data)
 		_handle.call()
 	)
 	ApiClient.get_notes_index(func(ok: bool, data) -> void:
 		if ok and data is Array:
 			state["index"] = data
-			print("[home] GET /api/v1/notes/index PASS  array_len=%d" % data.size())
 		else:
 			state["failed"] += 1
-			_print_home_fetch_fail("index", ok, data)
 		_handle.call()
 	)
-
-
-func _print_home_fetch_fail(which: String, ok: bool, data: Variant) -> void:
-	var type_name := ""
-	match typeof(data):
-		TYPE_NIL:
-			type_name = "null"
-		TYPE_BOOL:
-			type_name = "bool"
-		TYPE_INT:
-			type_name = "int"
-		TYPE_FLOAT:
-			type_name = "float"
-		TYPE_STRING:
-			type_name = "String"
-		TYPE_DICTIONARY:
-			type_name = "Dictionary"
-		TYPE_ARRAY:
-			type_name = "Array"
-		_:
-			type_name = "other(%d)" % typeof(data)
-	var preview: String
-	if data is Dictionary or data is Array:
-		var s := JSON.stringify(data)
-		preview = s if s.length() <= 500 else s.substr(0, 500) + "…"
-	elif data is String:
-		preview = data
-	else:
-		preview = str(data)
-	print("[home] GET /api/v1/notes/%s FAIL  ok=%s  data_type=%s  detail=%s" % [which, ok, type_name, preview])
 
 
 func _load_from_local_cache() -> void:
@@ -251,7 +214,7 @@ func _start_full_mirror_sync() -> void:
 	%SyncNowBtn.disabled = true
 	%SyncNowBtn.text = "Syncing…"
 	%SyncStatusLabel.text = "Syncing…"
-	SyncManager.start_sync(func(success: bool) -> void:
+	SyncManager.start_sync(func(success: bool, error_msg: String) -> void:
 		%SyncNowBtn.disabled = false
 		%SyncNowBtn.text = "Sync Now"
 		if success:
@@ -259,4 +222,5 @@ func _start_full_mirror_sync() -> void:
 			_load_from_local_cache()
 		else:
 			%SyncStatusLabel.text = "Sync failed."
+			%SyncErrorDialog.popup_error("Sync failed", error_msg)
 	)

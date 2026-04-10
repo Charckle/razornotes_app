@@ -85,24 +85,50 @@ func _do_refresh(refresh_token: String, callback: Callable) -> void:
 
 
 ## Check whether the server is reachable (no auth required).
-## Callback: func(reachable: bool)
+## Callback: func(reachable: bool, error_message: String)
+## error_message is "" on success, human-readable reason on failure.
 func check_reachable(callback: Callable) -> void:
 	if _server_url.is_empty():
-		callback.call(false)
+		callback.call(false, "No server URL configured. Go to Settings → User credentials.")
 		return
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(func(result: int, _code, _h, _b) -> void:
 		http.queue_free()
 		# Any HTTP response at all means the server is up.
-		callback.call(result == HTTPRequest.RESULT_SUCCESS)
+		if result == HTTPRequest.RESULT_SUCCESS:
+			callback.call(true, "")
+		else:
+			var reason := _http_result_string(result)
+			callback.call(false, "Could not reach %s\n\n%s" % [_server_url, reason])
 	)
 	# GET /api/v1/login returns 405 but proves the server is alive.
 	var err := http.request(_server_url + "/api/v1/login",
 			PackedStringArray([]), HTTPClient.METHOD_GET, "")
 	if err != OK:
 		http.queue_free()
-		callback.call(false)
+		var hint := ""
+		if err == ERR_INVALID_PARAMETER:
+			hint = "\n\nThe URL \"%s\" looks malformed. Make sure it starts with http:// or https://." % _server_url
+		callback.call(false, "Could not send request to server.%s" % hint)
+
+
+func _http_result_string(result: int) -> String:
+	match result:
+		HTTPRequest.RESULT_CANT_CONNECT:
+			return "Connection refused. Check that the server is running and the URL is correct."
+		HTTPRequest.RESULT_CANT_RESOLVE:
+			return "Could not resolve hostname. Check the server URL."
+		HTTPRequest.RESULT_CONNECTION_ERROR:
+			return "Connection error. Check your network."
+		HTTPRequest.RESULT_TLS_HANDSHAKE_ERROR:
+			return "TLS/SSL handshake failed. Check the server certificate."
+		HTTPRequest.RESULT_NO_RESPONSE:
+			return "No response from server (timeout)."
+		HTTPRequest.RESULT_REQUEST_FAILED:
+			return "Request failed."
+		_:
+			return "Network error (code %d)." % result
 
 
 # ── Notes API ─────────────────────────────────────────────────────────────────
@@ -133,6 +159,20 @@ func get_note_hash(note_id: int, callback: Callable) -> void:
 func search_notes(key: String, callback: Callable) -> void:
 	var url := _server_url + "/api/v1/search"
 	var body := JSON.stringify({"key": key})
+	var headers := PackedStringArray([
+		"Authorization: Bearer " + _access_token,
+		"Content-Type: application/json"
+	])
+	_make_request(HTTPClient.METHOD_POST, url, headers, body, callback)
+
+
+func get_clipboard(callback: Callable) -> void:
+	_auth_get("/api/v1/clipboard", callback)
+
+
+func set_clipboard(text: String, callback: Callable) -> void:
+	var url := _server_url + "/api/v1/clipboard"
+	var body := JSON.stringify({"key": text})
 	var headers := PackedStringArray([
 		"Authorization: Bearer " + _access_token,
 		"Content-Type: application/json"

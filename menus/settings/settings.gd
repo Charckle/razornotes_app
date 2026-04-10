@@ -16,6 +16,7 @@ func _ready() -> void:
 		%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
 		%SyncNowBtn.pressed.connect(_on_sync_now_pressed)
 
+	%UserCredentialsBtn.pressed.connect(_on_user_credentials)
 	%SwitchAccountBtn.pressed.connect(_on_switch_account)
 	%AddAccountBtn.pressed.connect(_on_add_account)
 	%LogoutBtn.pressed.connect(_on_logout)
@@ -31,13 +32,14 @@ func _ready() -> void:
 func _on_sync_now_pressed() -> void:
 	%SyncNowBtn.disabled = true
 	%SyncNowBtn.text = "Syncing…"
-	SyncManager.start_sync(func(success: bool) -> void:
+	SyncManager.start_sync(func(success: bool, error_msg: String) -> void:
 		%SyncNowBtn.disabled = false
 		%SyncNowBtn.text = "Sync Now"
 		if success:
 			%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
 		else:
 			%LastSyncedLabel.text = "Sync failed."
+			_show_error_popup("Sync failed", error_msg)
 	)
 
 
@@ -45,7 +47,7 @@ func _check_server_status() -> void:
 	%ServerStatusLabel.text = "Checking…"
 	%ServerStatusLabel.modulate = Color(0.7, 0.7, 0.7, 1)
 	%CheckServerBtn.disabled = true
-	ApiClient.check_reachable(func(reachable: bool) -> void:
+	ApiClient.check_reachable(func(reachable: bool, error_msg: String) -> void:
 		%CheckServerBtn.disabled = false
 		if reachable:
 			%ServerStatusLabel.text = "Online"
@@ -53,7 +55,16 @@ func _check_server_status() -> void:
 		else:
 			%ServerStatusLabel.text = "Unreachable"
 			%ServerStatusLabel.modulate = Color(1.0, 0.35, 0.35, 1)
+			_show_error_popup("Server unreachable", error_msg)
 	)
+
+
+func _show_error_popup(title: String, message: String) -> void:
+	%ErrorDialog.popup_error(title, message)
+
+
+func _on_user_credentials() -> void:
+	get_tree().change_scene_to_file("res://menus/edit_account/edit_account.tscn")
 
 
 func _on_switch_account() -> void:

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://caccsel000001"]
 
 [ext_resource type="Script" uid="uid://bjj17fm84sly8" path="res://menus/account_select/account_select.gd" id="1_asel"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
 
 [node name="AccountSelect" type="Control" unique_id=1674131055]
 layout_mode = 3
@@ -9,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_theme")
 script = ExtResource("1_asel")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1917997237]
@@ -34,9 +36,9 @@ text = "razor notes"
 horizontal_alignment = 1
 
 [node name="SubtitleLabel" type="Label" parent="MarginContainer/VBoxContainer" unique_id=293528809]
-modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
 text = "Select an account"
 horizontal_alignment = 1
 
@@ -105,9 +107,9 @@ text = "Show"
 
 [node name="UnlockErrorLabel" type="Label" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=385670405]
 unique_name_in_owner = true
-modulate = Color(1, 0.35, 0.35, 1)
 layout_mode = 2
 horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.863, 0.208, 0.271, 1)
 
 [node name="UnlockBtn" type="Button" parent="MarginContainer/VBoxContainer/UnlockView" unique_id=242936895]
 unique_name_in_owner = true
