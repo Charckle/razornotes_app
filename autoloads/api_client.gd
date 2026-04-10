@@ -81,7 +81,7 @@ func _do_refresh(refresh_token: String, callback: Callable) -> void:
 		if ok and data is Dictionary:
 			_set_access_token(data.get("access", ""))
 		callback.call(ok, data)
-	)
+	, true)
 
 
 ## Check whether the server is reachable (no auth required).

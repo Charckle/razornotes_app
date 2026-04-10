@@ -31,13 +31,10 @@ func _ready() -> void:
 func _on_sync_now_pressed() -> void:
 	%SyncNowBtn.disabled = true
 	%SyncNowBtn.text = "Syncing…"
-	# Delegate to note_list logic via signal would be clean,
-	# but for settings we just trigger a hashes check directly.
-	ApiClient.get_notes_hashes(func(ok: bool, data) -> void:
+	SyncManager.start_sync(func(success: bool) -> void:
 		%SyncNowBtn.disabled = false
 		%SyncNowBtn.text = "Sync Now"
-		if ok:
-			AccountManager.update_last_synced()
+		if success:
 			%LastSyncedLabel.text = "Last synced: " + LocalStorage.get_last_synced_string()
 		else:
 			%LastSyncedLabel.text = "Sync failed."

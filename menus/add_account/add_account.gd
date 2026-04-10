@@ -3,7 +3,8 @@ extends Control
 var _thread: Thread = null
 
 const SYNC_MODES := ["remote_only", "local_some", "full_mirror"]
-const _PassVis := preload("res://components/password_visibility_helper.gd")
+const _PassVis   := preload("res://components/password_visibility_helper.gd")
+const _LongPaste := preload("res://components/long_press_paste_helper.gd")
 
 
 func _ready() -> void:
@@ -14,6 +15,11 @@ func _ready() -> void:
 	%SyncModeOption.add_item("Full mirror (download everything)", 2)
 	_PassVis.bind_button(%ServerPassShowBtn, %ServerPassInput)
 	_PassVis.bind_button(%LocalPassShowBtn, %LocalPassInput)
+	_LongPaste.bind_field(%LabelInput)
+	_LongPaste.bind_field(%UrlInput)
+	_LongPaste.bind_field(%UsernameInput)
+	_LongPaste.bind_field(%ServerPassInput)
+	_LongPaste.bind_field(%LocalPassInput)
 
 
 func _on_save_pressed() -> void:
