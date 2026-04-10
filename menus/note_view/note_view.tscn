@@ -58,6 +58,13 @@ theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(0.9, 0.88, 0.82, 1)
 text_overrun_behavior = 3
 
+[node name="FormatBtn" type="Button" parent="VBoxContainer/TopBarPanel/TopBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Raw"
+custom_minimum_size = Vector2(60, 44)
+theme_override_font_sizes/font_size = 13
+
 [node name="LoadingLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
@@ -85,7 +92,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_note_content")
 layout_mode = 2
 unique_name_in_owner = true
 size_flags_horizontal = 3
-bbcode_enabled = false
+bbcode_enabled = true
 fit_content = true
 
 

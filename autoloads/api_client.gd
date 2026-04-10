@@ -49,6 +49,13 @@ func is_authenticated() -> bool:
 	return not _access_token.is_empty()
 
 
+## Re-attempt login with stored credentials. Safe to call when already authenticated.
+func retry_auth() -> void:
+	if is_authenticated():
+		return
+	_try_auto_login()
+
+
 func _set_access_token(token: String) -> void:
 	_access_token = token
 	if not token.is_empty():

@@ -23,6 +23,7 @@ func _ready() -> void:
 		_load_notes()
 	)
 	%RetryBtn.hide()
+	%RetryTimer.timeout.connect(_on_retry_timer_timeout)
 
 	_load_notes()
 
@@ -48,6 +49,7 @@ func show_recent() -> void:
 
 
 func show_all() -> void:
+	%RetryTimer.stop()
 	_showing_recent = false
 	_clear_notes()
 	%LoadingLabel.text = "Loading all notes…"
@@ -61,6 +63,8 @@ func show_all() -> void:
 				%LoadingLabel.text = "Connecting to server…"
 				ApiClient.authenticated.connect(show_all, CONNECT_ONE_SHOT)
 				ApiClient.auth_failed.connect(_on_auth_failed_while_loading, CONNECT_ONE_SHOT)
+				ApiClient.retry_auth()
+				%RetryTimer.start()
 				return
 			ApiClient.get_all_notes(func(ok: bool, data) -> void:
 				if ok and data is Array:
@@ -77,6 +81,7 @@ func show_all() -> void:
 
 
 func _load_notes() -> void:
+	%RetryTimer.stop()
 	_showing_recent = false
 	%LoadingLabel.text = "Loading…"
 	%LoadingLabel.show()
@@ -94,6 +99,8 @@ func _load_notes() -> void:
 		%LoadingLabel.text = "Connecting to server…"
 		ApiClient.authenticated.connect(_load_notes, CONNECT_ONE_SHOT)
 		ApiClient.auth_failed.connect(_on_auth_failed_while_loading, CONNECT_ONE_SHOT)
+		ApiClient.retry_auth()
+		%RetryTimer.start()
 		return
 
 	match _sync_mode:
@@ -202,10 +209,15 @@ func _clear_notes() -> void:
 
 
 func _on_auth_failed_while_loading() -> void:
+	%RetryTimer.stop()
 	%LoadingLabel.hide()
 	%ErrorLabel.text = "Could not connect to server."
 	%ErrorLabel.show()
 	%RetryBtn.show()
+
+
+func _on_retry_timer_timeout() -> void:
+	ApiClient.retry_auth()
 
 
 # ── Full mirror sync ──────────────────────────────────────────────────────────

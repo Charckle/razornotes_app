@@ -4,11 +4,15 @@ signal back_requested
 
 var _note_id: int = 0
 var _sync_mode: String = ""
+var _raw_text: String = ""
+var _formatted: bool = true
 
 
 func _ready() -> void:
 	%BackBtn.pressed.connect(func() -> void: back_requested.emit())
+	%FormatBtn.pressed.connect(_on_format_btn_pressed)
 	_sync_mode = AccountManager.get_current_account().get("sync_mode", "remote_only")
+	_update_format_btn()
 
 
 func load_note(note_id: int) -> void:
@@ -90,5 +94,23 @@ func _display(note: Dictionary, source: String) -> void:
 	LocalStorage.add_to_recent(note.get("_id", _note_id))
 	%LoadingLabel.hide()
 	%TitleLabel.text = note.get("title", "Untitled")
-	%NoteText.text = note.get("text", "")
+	_raw_text = note.get("text", "")
+	_render_note()
 	%StatusLabel.text = source
+
+
+func _render_note() -> void:
+	if _formatted:
+		%NoteText.text = MarkdownBBCode.convert(_raw_text)
+	else:
+		%NoteText.text = _raw_text
+
+
+func _on_format_btn_pressed() -> void:
+	_formatted = not _formatted
+	_update_format_btn()
+	_render_note()
+
+
+func _update_format_btn() -> void:
+	%FormatBtn.text = "Raw" if _formatted else "Formatted"
