@@ -69,12 +69,14 @@ theme_override_constants/margin_bottom = 8
 [node name="NoteContent" type="PanelContainer" parent="VBoxContainer/ScrollContainer/ContentMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_note_content")
 
 [node name="NoteText" type="RichTextLabel" parent="VBoxContainer/ScrollContainer/ContentMargin/NoteContent"]
 layout_mode = 2
 unique_name_in_owner = true
 size_flags_horizontal = 3
+mouse_filter = 1
 bbcode_enabled = true
 fit_content = true
 

@@ -37,6 +37,8 @@ func load_note(note_id: int) -> void:
 
 func _fetch_from_server() -> void:
 	ApiClient.get_note(_note_id, func(ok: bool, data) -> void:
+		if not is_instance_valid(self):
+			return
 		if ok and data is Dictionary:
 			_display(data, "live")
 		else:
@@ -55,6 +57,8 @@ func _load_from_local() -> void:
 func _load_local_some() -> void:
 	AppLogger.log("[NoteView] Checking server hash for note %d…" % _note_id)
 	ApiClient.get_note_hash(_note_id, func(ok: bool, data) -> void:
+		if not is_instance_valid(self):
+			return
 		if not ok:
 			AppLogger.log("[NoteView] Server unreachable — loading note %d from local cache." % _note_id)
 			_load_from_local()
@@ -69,6 +73,8 @@ func _load_local_some() -> void:
 		else:
 			AppLogger.log("[NoteView] Hash mismatch — downloading fresh copy of note %d." % _note_id)
 			ApiClient.get_note(_note_id, func(ok2: bool, note_data) -> void:
+				if not is_instance_valid(self):
+					return
 				if ok2 and note_data is Dictionary:
 					_cache_note(note_data, server_hash)
 					_display(note_data, "live")

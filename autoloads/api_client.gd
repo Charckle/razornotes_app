@@ -16,6 +16,12 @@ func _ready() -> void:
 	AccountManager.account_unlocked.connect(_on_account_unlocked)
 
 
+func _safe_call(callback: Callable, success: bool, data: Variant) -> void:
+	if not callback.is_valid():
+		return
+	callback.call(success, data)
+
+
 func _on_account_unlocked(account_meta: Dictionary) -> void:
 	_server_url = account_meta.get("server_url", "")
 	_access_token = ""
@@ -82,7 +88,7 @@ func login(username: String, password: String, callback: Callable) -> void:
 			var refresh: String = data.get("refresh", "")
 			if not refresh.is_empty():
 				AccountManager.save_refresh_token(refresh)
-		callback.call(ok, data)
+		_safe_call(callback, ok, data)
 	)
 
 
@@ -98,7 +104,7 @@ func _do_refresh(refresh_token: String, callback: Callable) -> void:
 			AppLogger.log("[ApiClient] Token refresh completed — new access token obtained.")
 		else:
 			AppLogger.log("[ApiClient] Token refresh request failed: %s" % str(data))
-		callback.call(ok, data)
+		_safe_call(callback, ok, data)
 	, true)
 
 
@@ -107,7 +113,7 @@ func _do_refresh(refresh_token: String, callback: Callable) -> void:
 ## error_message is "" on success, human-readable reason on failure.
 func check_reachable(callback: Callable) -> void:
 	if _server_url.is_empty():
-		callback.call(false, "No server URL configured. Go to Settings → User credentials.")
+		_safe_call(callback, false, "No server URL configured. Go to Settings → User credentials.")
 		return
 	var http := HTTPRequest.new()
 	add_child(http)
@@ -115,10 +121,10 @@ func check_reachable(callback: Callable) -> void:
 		http.queue_free()
 		# Any HTTP response at all means the server is up.
 		if result == HTTPRequest.RESULT_SUCCESS:
-			callback.call(true, "")
+			_safe_call(callback, true, "")
 		else:
 			var reason := _http_result_string(result)
-			callback.call(false, "Could not reach %s\n\n%s" % [_server_url, reason])
+			_safe_call(callback, false, "Could not reach %s\n\n%s" % [_server_url, reason])
 	)
 	# GET /api/v1/login returns 405 but proves the server is alive.
 	var err := http.request(_server_url + "/api/v1/login",
@@ -128,7 +134,7 @@ func check_reachable(callback: Callable) -> void:
 		var hint := ""
 		if err == ERR_INVALID_PARAMETER:
 			hint = "\n\nThe URL \"%s\" looks malformed. Make sure it starts with http:// or https://." % _server_url
-		callback.call(false, "Could not send request to server.%s" % hint)
+		_safe_call(callback, false, "Could not send request to server.%s" % hint)
 
 
 func _http_result_string(result: int) -> String:
@@ -168,7 +174,7 @@ func get_note(note_id: int, callback: Callable) -> void:
 		# Normalize server's 'id' field to '_id' to match list response format.
 		if ok and data is Dictionary and data.has("id") and not data.has("_id"):
 			data["_id"] = data["id"]
-		callback.call(ok, data)
+		_safe_call(callback, ok, data)
 	)
 
 func get_note_hash(note_id: int, callback: Callable) -> void:
@@ -209,7 +215,7 @@ func _auth_get(path: String, callback: Callable) -> void:
 func _make_request(method: int, url: String, headers: PackedStringArray,
 		body: String, callback: Callable, is_retry: bool = false) -> void:
 	if _server_url.is_empty() and not url.begins_with("http"):
-		callback.call(false, "No server configured.")
+		_safe_call(callback, false, "No server configured.")
 		return
 
 	var http := HTTPRequest.new()
@@ -220,7 +226,7 @@ func _make_request(method: int, url: String, headers: PackedStringArray,
 		http.queue_free()
 
 		if result != HTTPRequest.RESULT_SUCCESS:
-			callback.call(false, "Network error (%d)." % result)
+			_safe_call(callback, false, "Network error (%d)." % result)
 			return
 
 		# Flask-JWT-Extended returns 422 for a missing/malformed token,
@@ -236,7 +242,7 @@ func _make_request(method: int, url: String, headers: PackedStringArray,
 						AccountManager.clear_refresh_token()
 						_try_auto_login()
 						auth_failed.emit()
-						callback.call(false, "Session expired.")
+						_safe_call(callback, false, "Session expired.")
 						return
 					AppLogger.log("[ApiClient] Token refresh succeeded — retrying original request.")
 					var new_headers := PackedStringArray()
@@ -251,22 +257,22 @@ func _make_request(method: int, url: String, headers: PackedStringArray,
 				AppLogger.log("[ApiClient] No refresh token available — triggering password login.")
 				_try_auto_login()
 				auth_failed.emit()
-				callback.call(false, "Not authenticated.")
+				_safe_call(callback, false, "Not authenticated.")
 			return
 
 		if response_code < 200 or response_code >= 300:
-			callback.call(false, "HTTP %d" % response_code)
+			_safe_call(callback, false, "HTTP %d" % response_code)
 			return
 
 		var json := JSON.new()
 		if json.parse(resp_body.get_string_from_utf8()) != OK:
-			callback.call(false, "Invalid JSON response.")
+			_safe_call(callback, false, "Invalid JSON response.")
 			return
 
-		callback.call(true, json.get_data())
+		_safe_call(callback, true, json.get_data())
 	)
 
 	var err := http.request(url, headers, method, body)
 	if err != OK:
 		http.queue_free()
-		callback.call(false, "Request setup failed: %s" % error_string(err))
+		_safe_call(callback, false, "Request setup failed: %s" % error_string(err))

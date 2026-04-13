@@ -20,21 +20,26 @@ func set_cached(is_cached: bool) -> void:
 	%LocalBadge.visible = is_cached
 
 
+func _ready() -> void:
+	mouse_filter = MOUSE_FILTER_PASS
+
+
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.pressed:
 			_touch_start = event.position
 			_tracking = true
 			_is_drag = false
-		else:
-			if _tracking and not _is_drag:
+		elif _tracking:
+			if not _is_drag:
 				note_pressed.emit(_note_id)
 				get_viewport().set_input_as_handled()
 			_tracking = false
-	elif event is InputEventScreenDrag:
-		if _tracking and event.position.distance_to(_touch_start) > DRAG_THRESHOLD:
+
+
+func _input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
+	if event is InputEventScreenDrag and _tracking:
+		if event.position.distance_to(_touch_start) > DRAG_THRESHOLD:
 			_is_drag = true
-	elif event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			note_pressed.emit(_note_id)
-			get_viewport().set_input_as_handled()

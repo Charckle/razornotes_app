@@ -68,6 +68,8 @@ func show_all() -> void:
 				%RetryTimer.start()
 				return
 			ApiClient.get_all_notes(func(ok: bool, data) -> void:
+				if not is_instance_valid(self):
+					return
 				if ok and data is Array:
 					_display_notes([], data)
 				else:
@@ -262,6 +264,8 @@ func _start_full_mirror_sync() -> void:
 	%SyncNowBtn.text = "Syncing…"
 	%SyncStatusLabel.text = "Syncing…"
 	SyncManager.start_sync(func(success: bool, msg: String) -> void:
+		if not is_instance_valid(self):
+			return
 		%SyncNowBtn.disabled = false
 		%SyncNowBtn.text = "Sync Now"
 		if success:
