@@ -26,6 +26,7 @@ AccountManager="*res://autoloads/account_manager.gd"
 ApiClient="*res://autoloads/api_client.gd"
 LocalStorage="*res://autoloads/local_storage.gd"
 SyncManager="*res://autoloads/sync_manager.gd"
+AppLogger="*res://autoloads/logger.gd"
 
 [display]
 

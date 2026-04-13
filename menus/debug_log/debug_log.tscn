@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://cdebuglog001"]
+
+[ext_resource type="Script" path="res://menus/debug_log/debug_log.gd" id="1_debuglog"]
+[ext_resource type="Theme" uid="uid://crazortheme001" path="res://razor_theme.tres" id="2_theme"]
+
+[node name="DebugLog" type="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_debuglog")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="InnerRow" type="HBoxContainer" parent="VBoxContainer/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BackBtn" type="Button" parent="VBoxContainer/TopBar/InnerRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "← Back"
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/TopBar/InnerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Debug Log"
+theme_override_font_sizes/font_size = 18
+
+[node name="ClearBtn" type="Button" parent="VBoxContainer/TopBar/InnerRow"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Clear"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="LogContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+size_flags_horizontal = 3
+theme_override_constants/separation = 4

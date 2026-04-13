@@ -53,10 +53,10 @@ func _load_from_local() -> void:
 
 
 func _load_local_some() -> void:
-	print("[NoteView] Checking server hash for note %d…" % _note_id)
+	AppLogger.log("[NoteView] Checking server hash for note %d…" % _note_id)
 	ApiClient.get_note_hash(_note_id, func(ok: bool, data) -> void:
 		if not ok:
-			print("[NoteView] Server unreachable — loading note %d from local cache." % _note_id)
+			AppLogger.log("[NoteView] Server unreachable — loading note %d from local cache." % _note_id)
 			_load_from_local()
 			return
 
@@ -64,19 +64,19 @@ func _load_local_some() -> void:
 		var local_hash  := LocalStorage.get_local_hash(_note_id)
 
 		if server_hash == local_hash and LocalStorage.has_note(_note_id):
-			print("[NoteView] Hash match — serving note %d from local cache." % _note_id)
+			AppLogger.log("[NoteView] Hash match — serving note %d from local cache." % _note_id)
 			_load_from_local()
 		else:
-			print("[NoteView] Hash mismatch — downloading fresh copy of note %d." % _note_id)
+			AppLogger.log("[NoteView] Hash mismatch — downloading fresh copy of note %d." % _note_id)
 			ApiClient.get_note(_note_id, func(ok2: bool, note_data) -> void:
 				if ok2 and note_data is Dictionary:
 					_cache_note(note_data, server_hash)
 					_display(note_data, "live")
 				elif LocalStorage.has_note(_note_id):
-					print("[NoteView] Download failed — falling back to cached note %d." % _note_id)
+					AppLogger.log("[NoteView] Download failed — falling back to cached note %d." % _note_id)
 					_load_from_local()
 				else:
-					print("[NoteView] Download failed and no local cache for note %d." % _note_id)
+					AppLogger.log("[NoteView] Download failed and no local cache for note %d." % _note_id)
 					%LoadingLabel.text = "Failed to load note."
 			)
 	)

@@ -1,5 +1,7 @@
 extends Control
 
+const DebugLogScene := preload("res://menus/debug_log/debug_log.tscn")
+
 
 func _ready() -> void:
 	var account := AccountManager.get_current_account()
@@ -25,6 +27,10 @@ func _ready() -> void:
 	%CheckServerBtn.pressed.connect(_check_server_status)
 
 	%VersionLabel.text = "v" + ProjectSettings.get_setting("application/config/version", "?")
+
+	%DebugLogBtn.pressed.connect(func() -> void:
+		add_child(DebugLogScene.instantiate())
+	)
 
 	_check_server_status()
 

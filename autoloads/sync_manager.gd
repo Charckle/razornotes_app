@@ -59,7 +59,7 @@ func _process_hash_diff(server_hashes: Array) -> void:
 	if to_fetch.is_empty():
 		LocalStorage.save_index(local_index)
 		AccountManager.update_last_synced()
-		print("[sync] Done: already up to date.")
+		AppLogger.log("[sync] Done: already up to date.")
 		_finish_all(true, "Already up to date.")
 		return
 
@@ -102,7 +102,7 @@ func _fetch_one(state: Dictionary) -> void:
 			AccountManager.update_last_synced()
 			var downloaded: int = state["downloaded"]
 			var failed_count: int = state["failed"]
-			print("[sync] Done: %d downloaded, %d failed." % [downloaded, failed_count])
+			AppLogger.log("[sync] Done: %d downloaded, %d failed." % [downloaded, failed_count])
 			if failed_count == 0:
 				_finish_all(true, "%d note(s) downloaded." % downloaded)
 			else:

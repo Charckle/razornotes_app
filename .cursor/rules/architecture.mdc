@@ -1,0 +1,44 @@
+---
+description: Autoload singletons, signals, data flow, and security-sensitive files
+alwaysApply: true
+---
+
+# Architecture
+
+## Autoload Singletons
+
+Four global singletons are registered in `project.godot`. Access them by name anywhere:
+
+| Singleton | File | Role |
+|---|---|---|
+| `AccountManager` | `autoloads/account_manager.gd` | Account list, PBKDF2+AES-256-CBC encryption, session unlock, `_server_pass` / `_refresh_token` in memory |
+| `ApiClient` | `autoloads/api_client.gd` | HTTP client; auto-login on unlock; token refresh on 401/422; note CRUD |
+| `LocalStorage` | `autoloads/local_storage.gd` | Per-account encrypted note cache (`user://cache/<id>/`) |
+| `SyncManager` | `autoloads/sync_manager.gd` | Full-mirror hash-diff sync; queues concurrent callbacks; auto-syncs on app focus |
+
+`MarkdownBBCode` (`autoloads/markdown_bbcode.gd`) is a `class_name` utility — **not** an autoload — used by `note_view` to convert Markdown to BBCode.
+
+## Key Signals
+
+```gdscript
+AccountManager.account_unlocked(account_meta: Dictionary)  # session started
+AccountManager.accounts_changed                             # list mutated
+ApiClient.auth_failed                                       # all auth attempts exhausted
+ApiClient.authenticated                                     # access token obtained
+SyncManager.sync_completed(success: bool)
+```
+
+## Data Flow
+
+1. `account_select` → `AccountManager.unlock_account()` (background thread) → `notify_unlocked()` → emits `account_unlocked`
+2. `ApiClient` and `LocalStorage` both connect to `account_unlocked` in `_ready()` to configure themselves.
+3. API calls: `ApiClient.<method>(callback: Callable)` — callback is always `func(success: bool, data: Variant)`.
+4. On 401/422 `ApiClient` auto-retries via refresh token, then falls back to password login before calling the callback with `false`.
+
+## Security-Sensitive Files
+
+**Do not change crypto primitives or file formats without understanding the impact:**
+
+- `account_manager.gd` — PBKDF2 (100 000 iterations), AES-256-CBC, file format `salt(16)+iv(16)+ciphertext`
+- `local_storage.gd` — delegates encryption to `AccountManager.encrypt_data/decrypt_data`; format `iv(16)+ciphertext`
+- Encrypted secrets stored under `user://accounts/<id>.enc`; cache under `user://cache/<account_id>/`

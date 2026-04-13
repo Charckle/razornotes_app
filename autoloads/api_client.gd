@@ -22,12 +22,15 @@ func _on_account_unlocked(account_meta: Dictionary) -> void:
 
 	var refresh_token := AccountManager.get_refresh_token()
 	if not refresh_token.is_empty():
+		AppLogger.log("[ApiClient] Stored refresh token found — attempting token refresh.")
 		_do_refresh(refresh_token, func(ok: bool, _d) -> void:
 			if not ok:
+				AppLogger.log("[ApiClient] Refresh token rejected — clearing and falling back to password login.")
 				AccountManager.clear_refresh_token()
 				_try_auto_login()
 		)
 	else:
+		AppLogger.log("[ApiClient] No refresh token — attempting password login.")
 		_try_auto_login()
 
 
@@ -37,11 +40,16 @@ func _try_auto_login() -> void:
 	var username : String = AccountManager.get_current_account().get("username", "")
 	var password := AccountManager.get_server_password()
 	if username.is_empty() or password.is_empty():
+		AppLogger.log("[ApiClient] Password login aborted — username or password not stored (empty).")
 		auth_failed.emit()
 		return
-	login(username, password, func(ok: bool, _d) -> void:
+	AppLogger.log("[ApiClient] Attempting password login for user '%s'." % username)
+	login(username, password, func(ok: bool, data) -> void:
 		if not ok:
+			AppLogger.log("[ApiClient] Password login failed: %s" % str(data))
 			auth_failed.emit()
+		else:
+			AppLogger.log("[ApiClient] Password login succeeded.")
 	)
 
 
@@ -87,6 +95,9 @@ func _do_refresh(refresh_token: String, callback: Callable) -> void:
 	_make_request(HTTPClient.METHOD_POST, url, headers, "", func(ok: bool, data) -> void:
 		if ok and data is Dictionary:
 			_set_access_token(data.get("access", ""))
+			AppLogger.log("[ApiClient] Token refresh completed — new access token obtained.")
+		else:
+			AppLogger.log("[ApiClient] Token refresh request failed: %s" % str(data))
 		callback.call(ok, data)
 	, true)
 
@@ -215,15 +226,19 @@ func _make_request(method: int, url: String, headers: PackedStringArray,
 		# Flask-JWT-Extended returns 422 for a missing/malformed token,
 		# and 401 for an expired one. Treat both as auth failures.
 		if (response_code == 401 or response_code == 422) and not is_retry:
+			AppLogger.log("[ApiClient] HTTP %d on %s — access token rejected." % [response_code, url])
 			var refresh_token := AccountManager.get_refresh_token()
 			if not refresh_token.is_empty():
+				AppLogger.log("[ApiClient] Attempting token refresh after %d." % response_code)
 				_do_refresh(refresh_token, func(ok: bool, _d) -> void:
 					if not ok:
+						AppLogger.log("[ApiClient] Token refresh failed — clearing and falling back to password login.")
 						AccountManager.clear_refresh_token()
 						_try_auto_login()
 						auth_failed.emit()
 						callback.call(false, "Session expired.")
 						return
+					AppLogger.log("[ApiClient] Token refresh succeeded — retrying original request.")
 					var new_headers := PackedStringArray()
 					for h in headers:
 						if (h as String).begins_with("Authorization:"):
@@ -233,6 +248,7 @@ func _make_request(method: int, url: String, headers: PackedStringArray,
 					_make_request(method, url, new_headers, body, callback, true)
 				)
 			else:
+				AppLogger.log("[ApiClient] No refresh token available — triggering password login.")
 				_try_auto_login()
 				auth_failed.emit()
 				callback.call(false, "Not authenticated.")

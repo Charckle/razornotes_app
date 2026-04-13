@@ -5,6 +5,8 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_topbar"]
 bg_color = Color(0.173, 0.173, 0.173, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_note_content"]
 bg_color = Color(0.961, 0.941, 0.878, 1)
@@ -46,43 +48,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopBarPanel" type="PanelContainer" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_topbar")
-
-[node name="TopBar" type="HBoxContainer" parent="VBoxContainer/TopBarPanel"]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="BackBtn" type="Button" parent="VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "← Back"
-custom_minimum_size = Vector2(80, 44)
-
-[node name="TitleLabel" type="Label" parent="VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-unique_name_in_owner = true
-text = ""
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.9, 0.88, 0.82, 1)
-text_overrun_behavior = 3
-
-[node name="FormatBtn" type="Button" parent="VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "Raw"
-custom_minimum_size = Vector2(60, 44)
-theme_override_font_sizes/font_size = 13
-
-[node name="CopyBtn" type="Button" parent="VBoxContainer/TopBarPanel/TopBar"]
-layout_mode = 2
-unique_name_in_owner = true
-text = "Copy"
-custom_minimum_size = Vector2(60, 44)
-theme_override_font_sizes/font_size = 13
-
 [node name="LoadingLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
@@ -121,6 +86,43 @@ text = ""
 horizontal_alignment = 2
 theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.424, 0.459, 0.490, 1)
+
+[node name="BottomBarPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_topbar")
+
+[node name="BottomBar" type="HBoxContainer" parent="VBoxContainer/BottomBarPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BackBtn" type="Button" parent="VBoxContainer/BottomBarPanel/BottomBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "← Back"
+custom_minimum_size = Vector2(80, 44)
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer/BottomBarPanel/BottomBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = ""
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.9, 0.88, 0.82, 1)
+text_overrun_behavior = 3
+
+[node name="FormatBtn" type="Button" parent="VBoxContainer/BottomBarPanel/BottomBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Raw"
+custom_minimum_size = Vector2(60, 44)
+theme_override_font_sizes/font_size = 13
+
+[node name="CopyBtn" type="Button" parent="VBoxContainer/BottomBarPanel/BottomBar"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Copy"
+custom_minimum_size = Vector2(60, 44)
+theme_override_font_sizes/font_size = 13
 
 [node name="ToastHideTimer" type="Timer" parent="."]
 unique_name_in_owner = true

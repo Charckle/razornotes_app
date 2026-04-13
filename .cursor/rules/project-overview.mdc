@@ -1,0 +1,32 @@
+---
+description: RazorNotes project identity, entry point, and how to run
+alwaysApply: true
+---
+
+# RazorNotes — Project Overview
+
+**Godot 4.6 GDScript** mobile notes client that talks to a custom HTTP API backend.
+
+- **App name:** RazorNotes
+- **Engine:** Godot 4.6, Mobile renderer, portrait orientation (500×800)
+- **Target platform:** Android (APK via `export_presets.cfg`)
+- **Entry scene:** `res://menus/account_select/account_select.tscn`
+- **Language:** GDScript only — no C#, no addons, no `src/` in another language
+
+## Running
+
+```
+godot4 --path /path/to/razor-app        # editor/desktop run
+```
+
+No `Makefile`, `npm`, or other build tools. No automated test suite — testing requires a running Godot editor or a device.
+
+## Sync modes
+
+Each account has a `sync_mode` field with one of three values:
+
+| Value | Meaning |
+|---|---|
+| `remote_only` | Never cache; always fetch from server |
+| `local_some` | Cache individual notes on demand |
+| `full_mirror` | Full hash-diff sync; auto-syncs on app focus (every 180 s) |

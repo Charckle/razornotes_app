@@ -1,0 +1,82 @@
+---
+description: GDScript coding conventions and scene patterns for this project
+globs: **/*.gd
+alwaysApply: false
+---
+
+# GDScript Conventions
+
+## File & Folder Layout
+
+- One feature per directory: always a paired `.tscn` + `.gd`.
+- Reusable UI pieces live in `components/`; full screens in `menus/`.
+- Autoloads (singletons) live in `autoloads/`.
+
+## Node Access
+
+Use `%UniqueNodeName` (percent-sign) to access nodes from scripts — never `$Path/To/Node` chains.
+
+```gdscript
+# ✅
+%SearchBtn.pressed.connect(...)
+%ContentArea.add_child(view)
+
+# ❌
+$VBox/HBox/SearchBtn.pressed.connect(...)
+```
+
+## API Callback Pattern
+
+All `ApiClient` methods use a single trailing `Callable` with the signature:
+
+```gdscript
+func(success: bool, data: Variant) -> void
+```
+
+- `success == true`: `data` is a parsed `Dictionary` or `Array`.
+- `success == false`: `data` is a human-readable error `String`.
+
+```gdscript
+ApiClient.get_note(note_id, func(ok: bool, data) -> void:
+    if not ok:
+        show_error(data)
+        return
+    display_note(data)
+)
+```
+
+## Scene Instantiation
+
+Preload scenes as constants at the top of the script:
+
+```gdscript
+const NoteViewScene := preload("res://menus/note_view/note_view.tscn")
+# ...
+var view := NoteViewScene.instantiate()
+%ContentArea.add_child(view)
+```
+
+## Inter-Scene Communication
+
+Scenes communicate via **signals**, not direct references. The parent (`main_menu`) wires child signals after instantiation:
+
+```gdscript
+func _wire_view(view: Node) -> void:
+    if view.has_signal("note_requested"):
+        view.note_requested.connect(_open_note)
+```
+
+## Thread Safety
+
+`AccountManager.unlock_account()` and `update_current_account()` are safe to call from a background thread.  
+They must **not** emit signals directly — call `notify_unlocked()` from the main thread afterward.
+
+## `AccountManager` return-value convention
+
+Mutating methods return `""` on success and a human-readable error string on failure:
+
+```gdscript
+var err := AccountManager.add_account(...)
+if not err.is_empty():
+    show_error(err)
+```

@@ -106,7 +106,7 @@ func _load_notes() -> void:
 
 
 func _fetch_from_server(allow_local_fallback: bool) -> void:
-	print("[NoteList] Fetching note list from server…")
+	AppLogger.log("[NoteList] Fetching note list from server…")
 	var state := {
 		"count": 2,
 		"pinned": [],
@@ -121,13 +121,13 @@ func _fetch_from_server(allow_local_fallback: bool) -> void:
 		if state["count"] > 0:
 			return
 		if state["failed"] == 0:
-			print("[NoteList] Server responded — displaying live data.")
+			AppLogger.log("[NoteList] Server responded — displaying live data.")
 			_display_notes(state["pinned"], state["index"])
 		elif allow_local_fallback:
-			print("[NoteList] Server unreachable — falling back to local cache.")
+			AppLogger.log("[NoteList] Server unreachable — falling back to local cache.")
 			_load_from_local_cache()
 		else:
-			print("[NoteList] Server unreachable — no local fallback available.")
+			AppLogger.log("[NoteList] Server unreachable — no local fallback available.")
 			%LoadingLabel.hide()
 			%ErrorLabel.text = "Could not reach server."
 			%ErrorLabel.show()
@@ -242,7 +242,7 @@ func _clear_notes() -> void:
 func _on_auth_failed_while_loading() -> void:
 	%RetryTimer.stop()
 	if _sync_mode == "full_mirror":
-		print("[NoteList] Auth failed — falling back to local cache.")
+		AppLogger.log("[NoteList] Auth failed — falling back to local cache.")
 		_load_from_local_cache()
 		return
 	%LoadingLabel.hide()

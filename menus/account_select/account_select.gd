@@ -10,6 +10,7 @@ func _ready() -> void:
 	%AddAccountBtn.pressed.connect(_go_to_add_account)
 	%UnlockBtn.pressed.connect(_on_unlock_pressed)
 	%CancelUnlockBtn.pressed.connect(_show_account_list)
+	%LocalPassInput.text_submitted.connect(func(_text): _on_unlock_pressed())
 	_PassVis.bind_button(%UnlockPassShowBtn, %LocalPassInput)
 
 	if not AccountManager.has_accounts():

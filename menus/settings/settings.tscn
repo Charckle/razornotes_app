@@ -205,6 +205,12 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_danger_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_danger_pressed")
 
 
+[node name="DebugLogBtn" type="Button" parent="ScrollContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+unique_name_in_owner = true
+text = "Debug Log"
+custom_minimum_size = Vector2(0, 40)
+
 [node name="VersionLabel" type="Label" parent="ScrollContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 unique_name_in_owner = true
